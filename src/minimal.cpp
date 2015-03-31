@@ -35,7 +35,7 @@ int main(void) {
 void mainLoop(void) {
 	window = glfwGetCurrentContext();
 
-    while(1) {
+    while(!glfwWindowShouldClose(window)){
         double current_time = glfwGetTime();
 
         engine->update(current_time);
