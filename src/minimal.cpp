@@ -17,11 +17,14 @@
 #include "utils/utils.h"
 #include "utils/shaders.h"
 #include "minimal.hpp"
+#include "Engine.hpp"
 
 
 //Temporary global var
 GLFWwindow* window;
 GLuint programId;
+Engine* engine = new Engine();
+//ENGINE;
 
 //-------------------- MAIN 
 int main(void) {
@@ -32,8 +35,11 @@ int main(void) {
 
 void mainLoop(void) {
 	window = glfwGetCurrentContext();
+
     while(1) {
         double current_time = glfwGetTime();
+
+        engine->update(current_time);
 
         /* Send all the drawing commands and swap the buffers*/
         draw();
@@ -107,7 +113,7 @@ void draw() {
 	glUseProgram(programId);
 	
 	// Drawing there
-	std::cout << "Drawing" << std::endl;
+	engine->draw();
 	
 	//--------- Clean state again
 	glDisable(GL_DEPTH_TEST);

@@ -62,7 +62,9 @@ set(SRC_DIR src)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 ###  The executable  ###{{{
-add_executable(tunnelGL ${SRC_DIR}/minimal.cpp)
+
+file(GLOB SOURCES "${SRC_DIR}/*.cpp")
+add_executable(tunnelGL ${SOURCES})
 target_link_libraries(tunnelGL ${GL_LIBRARIES} ${GLFW3_STATIC_LIBRARIES} utils) # this is to save an image (for screenshots)
 ###  The executable  ###}}}
 
