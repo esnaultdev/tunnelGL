@@ -16,19 +16,19 @@
 //loading stuffs
 #include "utils/utils.h"
 #include "utils/shaders.h"
+#include "glhfAPI.hpp"
 #include "minimal.hpp"
 #include "Engine.hpp"
 
-
-//Temporary global var
 GLFWwindow* window;
-GLuint programId;
+glhf::Program prog;
+glhf::GLObject triangle;
 Engine* engine = new Engine();
-//ENGINE;
 
 //-------------------- MAIN 
 int main(void) {
     init();
+	make_resources();
     mainLoop();
     shutDown(0);
 }
@@ -51,14 +51,57 @@ void mainLoop(void) {
 }
 
 
+void make_resources(void){
+	std::vector<unsigned int> indices; 	
+	std::vector<float> position;
+	std::vector<float> color;
+	std::vector<float> normal;
+	std::vector<float> uv;
+
+	indices.push_back(0);
+	indices.push_back(2);
+	indices.push_back(1);
+	
+	position.push_back(-0.2);
+	position.push_back(-0.2);
+	position.push_back(0.0);
+
+	position.push_back(0.2);
+	position.push_back(0.2);
+	position.push_back(0.0);
+
+	position.push_back(0.2);
+	position.push_back(-0.2);
+	position.push_back(0.0);
+
+	color.push_back(1);
+	color.push_back(0);
+	color.push_back(0);
+	color.push_back(1);
+	color.push_back(1);
+	color.push_back(0);
+	color.push_back(1);
+	color.push_back(1);
+	color.push_back(1);
+
+	for (int i = 0; i < 3; i++) {
+		normal.push_back(1);
+		normal.push_back(1);
+		normal.push_back(1);
+		uv.push_back(0);
+		uv.push_back(0);
+	}
+
+	triangle = glhf::GLObject(prog, 3, 3, indices, position, color, normal, uv); 
+	triangle.initVao();
+}
 
 //-------------------- Inits
 void init(void) { 
     
 	initGLFW();
-	initGLEW(); 
-	programId = make_program("simple.v.glsl", "simple.f.glsl");
-	link_program(programId);    
+	initGLEW();
+	prog = glhf::Program("simple.v.glsl", "simple.f.glsl");
     
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
@@ -110,11 +153,13 @@ void draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	glUseProgram(programId);
+	glUseProgram(prog.getId());
 	
 	// Drawing there
-	engine->draw();
-	
+
+	triangle.draw();
+	engine->draw();	
+
 	//--------- Clean state again
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);

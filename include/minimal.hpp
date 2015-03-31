@@ -1,7 +1,7 @@
 void init(void);
 void initGLFW(void);
 void initGLEW(void);
-void make_shader(void);
+void make_resources(void);
 void shutDown(int return_code);
 void mainLoop(void);
 void resize(GLFWwindow* window, int width, int height);
