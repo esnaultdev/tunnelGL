@@ -20,16 +20,14 @@
 #include "minimal.hpp"
 #include "Engine.hpp"
 
-//Temporary global var
 GLFWwindow* window;
 glhf::Program prog;
-glhf::GLObject triangle;
-Engine* engine = new Engine();
+Engine* engine;
 
 //-------------------- MAIN 
 int main(void) {
     init();
-	make_resources();
+    engine = new Engine(prog);
     mainLoop();
     shutDown(0);
 }
@@ -49,52 +47,6 @@ void mainLoop(void) {
 		glfwSwapBuffers(window);
         glfwPollEvents();
     }
-}
-
-
-void make_resources(void){
-	std::vector<unsigned int> indices; 	
-	std::vector<float> position;
-	std::vector<float> color;
-	std::vector<float> normal;
-	std::vector<float> uv;
-
-	indices.push_back(0);
-	indices.push_back(2);
-	indices.push_back(1);
-	
-	position.push_back(-0.2);
-	position.push_back(-0.2);
-	position.push_back(0.0);
-
-	position.push_back(0.2);
-	position.push_back(0.2);
-	position.push_back(0.0);
-
-	position.push_back(0.2);
-	position.push_back(-0.2);
-	position.push_back(0.0);
-
-	color.push_back(1);
-	color.push_back(0);
-	color.push_back(0);
-	color.push_back(1);
-	color.push_back(1);
-	color.push_back(0);
-	color.push_back(1);
-	color.push_back(1);
-	color.push_back(1);
-
-	for (int i = 0; i < 3; i++) {
-		normal.push_back(1);
-		normal.push_back(1);
-		normal.push_back(1);
-		uv.push_back(0);
-		uv.push_back(0);
-	}
-
-	triangle = glhf::GLObject(prog, 3, 3, indices, position, color, normal, uv); 
-	triangle.initVao();
 }
 
 //-------------------- Inits
@@ -158,7 +110,6 @@ void draw() {
 	
 	// Drawing there
 
-	triangle.draw();
 	engine->draw();	
 
 	//--------- Clean state again

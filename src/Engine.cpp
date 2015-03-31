@@ -3,9 +3,10 @@
 #include "Engine.hpp"
 #include <iostream>
 
-Engine::Engine(){
-	_currentScreen = new GameScreen();
+Engine::Engine(glhf::Program prog){
+	_currentScreen = new GameScreen(prog);
 	_currentScreen->init();
+	_prog = prog;
 }
 
 Engine::~Engine(){
