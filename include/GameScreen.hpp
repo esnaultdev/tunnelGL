@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <GL/glew.h> 
-#include "Screen.hpp"
 #include "glhfAPI.hpp"
+
+#include "Screen.hpp"
+#include "Tunnel.hpp"
 
 class GameScreen : public Screen {
 
@@ -19,6 +21,7 @@ public:
 private:
 	glhf::GLObject _triangle;
 	glhf::Program _prog;
+	Tunnel _tunnel;
 	int _time = 0;
 };
 
