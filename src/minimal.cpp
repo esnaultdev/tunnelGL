@@ -104,17 +104,9 @@ void initGLEW(){
 
 void draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glUseProgram(prog.getId());
-	
-	// Drawing there
 
 	engine->draw();	
 
-	//--------- Clean state again
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
 	glUseProgram(0);
 }
 

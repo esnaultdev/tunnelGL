@@ -19,6 +19,7 @@ public:
 private:
 	glhf::GLObject _triangle;
 	glhf::Program _prog;
+	int _time = 0;
 };
 
 #endif
