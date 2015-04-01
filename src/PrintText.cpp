@@ -26,7 +26,7 @@ void initText2D(const char * texturePath, int nbCharW){
 	glGenBuffers(1, &Text2DVertexBufferID);
 	glGenBuffers(1, &Text2DUVBufferID);
 
-	glhf::Program progText = glhf::Program("../resources/TextShader.v.glsl", "../resources/TextShader.f.glsl");
+	glhf::Program progText = glhf::Program("TextShader.v.glsl", "TextShader.f.glsl");
 	Text2DShaderID = progText.getId();
 
 	Text2DUniformID = glGetUniformLocation( Text2DShaderID, "textTexture");
