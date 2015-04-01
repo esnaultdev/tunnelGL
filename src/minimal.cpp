@@ -20,16 +20,14 @@
 #include "minimal.hpp"
 #include "Engine.hpp"
 
-//Temporary global var
 GLFWwindow* window;
 glhf::Program prog;
-glhf::GLObject triangle;
-Engine* engine = new Engine();
+Engine* engine;
 
 //-------------------- MAIN 
 int main(void) {
     init();
-	make_resources();
+    engine = new Engine(prog);
     mainLoop();
     shutDown(0);
 }
@@ -37,7 +35,7 @@ int main(void) {
 void mainLoop(void) {
 	window = glfwGetCurrentContext();
 
-    while(1) {
+    while(!glfwWindowShouldClose(window)){
         double current_time = glfwGetTime();
 
         engine->update(current_time);
@@ -49,52 +47,6 @@ void mainLoop(void) {
 		glfwSwapBuffers(window);
         glfwPollEvents();
     }
-}
-
-
-void make_resources(void){
-	std::vector<unsigned int> indices; 	
-	std::vector<float> position;
-	std::vector<float> color;
-	std::vector<float> normal;
-	std::vector<float> uv;
-
-	indices.push_back(0);
-	indices.push_back(2);
-	indices.push_back(1);
-	
-	position.push_back(-0.2);
-	position.push_back(-0.2);
-	position.push_back(0.0);
-
-	position.push_back(0.2);
-	position.push_back(0.2);
-	position.push_back(0.0);
-
-	position.push_back(0.2);
-	position.push_back(-0.2);
-	position.push_back(0.0);
-
-	color.push_back(1);
-	color.push_back(0);
-	color.push_back(0);
-	color.push_back(1);
-	color.push_back(1);
-	color.push_back(0);
-	color.push_back(1);
-	color.push_back(1);
-	color.push_back(1);
-
-	for (int i = 0; i < 3; i++) {
-		normal.push_back(1);
-		normal.push_back(1);
-		normal.push_back(1);
-		uv.push_back(0);
-		uv.push_back(0);
-	}
-
-	triangle = glhf::GLObject(prog, 3, 3, indices, position, color, normal, uv); 
-	triangle.initVao();
 }
 
 //-------------------- Inits
@@ -152,18 +104,9 @@ void initGLEW(){
 
 void draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glUseProgram(prog.getId());
-	
-	// Drawing there
 
-	triangle.draw();
 	engine->draw();	
 
-	//--------- Clean state again
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
 	glUseProgram(0);
 }
 

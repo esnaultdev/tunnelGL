@@ -98,7 +98,7 @@ namespace glhf {
 				glVertexAttribPointer(normalIndex, 3, GL_FLOAT, GL_FALSE, 0, 0);
 				
 				glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-				GLint uvIndex = glGetAttribLocation(prog.getId(), "vertexUV");
+				GLint uvIndex = glGetAttribLocation(prog.getId(), "uv");
 				glEnableVertexAttribArray(uvIndex);
 				glVertexAttribPointer(uvIndex, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	
@@ -112,9 +112,11 @@ namespace glhf {
 			}
 
 			void draw(){
+				glUseProgram(prog.getId());
 				glBindVertexArray(vao);
 				glDrawElements(mode, indexCount, GL_UNSIGNED_INT, 0);
 				glBindVertexArray(0);
+				glUseProgram(0);
 			}
 
 
