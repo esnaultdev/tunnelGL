@@ -5,6 +5,7 @@
 #include "Box.hpp"
 #include "Sphere.hpp"
 #include "PrintText.hpp"
+#include "Tunnel.hpp"
 
 GameScreen::GameScreen(glhf::Program prog){
 	_prog = prog;
@@ -20,6 +21,8 @@ void GameScreen::init(){
 	std::cout << b->collideWith(s) << std::endl;
 	initText2D("../resources/test.DDS", 11);
 	make_triangle();
+	_tunnel = Tunnel(_prog);
+	_tunnel.init();
 }
 
 void GameScreen::update(double dt){
@@ -30,6 +33,7 @@ void GameScreen::draw(){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	_triangle.draw();
+	_tunnel.draw();
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
