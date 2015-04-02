@@ -57,7 +57,7 @@ void Tunnel::makeSection(){
         	double x = glm::cos(theta) * _radius;
         	double y = glm::sin(theta) * _radius;
         	double z = sideLength * i + _posStartZ;
-        	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
+        	std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
 
             position.push_back(x);
 			position.push_back(y);
@@ -79,7 +79,7 @@ void Tunnel::makeSection(){
 			uv.push_back(0);
 			uv.push_back(0);
 
-			if (i != _length - 1 && _matrix[i][j] != 0) {
+			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] != 0) {
 				// Outside
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
@@ -97,7 +97,6 @@ void Tunnel::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-
 			}
         }
     }
