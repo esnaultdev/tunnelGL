@@ -22,6 +22,7 @@
 
 GLFWwindow* window;
 glhf::Program prog;
+unsigned int timeUniformID;
 Engine* engine;
 
 //-------------------- MAIN 
@@ -37,6 +38,8 @@ void mainLoop(void) {
 
     while(!glfwWindowShouldClose(window)){
         double current_time = glfwGetTime();
+        glUseProgram(prog.getId());
+        glUniform1f(timeUniformID, current_time);
 
         engine->update(current_time);
 
@@ -55,7 +58,8 @@ void init(void) {
 	initGLFW();
 	initGLEW();
 	prog = glhf::Program("simple.v.glsl", "simple.f.glsl");
-    
+    timeUniformID = glGetUniformLocation( prog.getId(), "time");
+
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
     std::cout << "We made it! Now to the end of the tunnel..." << std::endl;

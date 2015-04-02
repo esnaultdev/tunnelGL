@@ -20,9 +20,9 @@ void GameScreen::init(){
 	Sphere *s = new Sphere(glm::vec3(-0.5, -0.5, 0), 1);
 	std::cout << b->collideWith(s) << std::endl;
 	initText2D("../resources/test.DDS", 11);
-	make_triangle();
+	makeTriangle();
 	_tunnel = Tunnel(_prog);
-	_tunnel.init();
+	_tunnel.init(0.2);
 }
 
 void GameScreen::update(double dt){
@@ -43,7 +43,7 @@ void GameScreen::draw(){
 	printText2D(strs.str().c_str(), 400, 30, 40);
 }
 
-void GameScreen::make_triangle(void){
+void GameScreen::makeTriangle(void){
 	std::vector<unsigned int> indices; 	
 	std::vector<float> position;
 	std::vector<float> color;

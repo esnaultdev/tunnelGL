@@ -14,16 +14,21 @@ public:
 	Tunnel();
 	Tunnel(glhf::Program prog);
 	~Tunnel();
-	void init();
+	void init(float posStartZ);
 	void draw();
+	float getPosEndZ();
+	float getRadius();
 
 private:
-	void make_section();
-	void generate_matrix();
+	void makeSection();
+	void generateMatrix();
 
 	glhf::GLObject _tunnelObj;
 	glhf::Program _prog;
 	int _matrix[TUNNEL_LENGTH][TUNNEL_NB_POLY];
+	float _radius = TUNNEL_RADIUS;
+	float _length = TUNNEL_LENGTH;
+	float _posStartZ;
 };
 
 #endif

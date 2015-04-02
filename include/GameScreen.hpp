@@ -16,7 +16,7 @@ public:
 	void init();
 	void update(double dt);
 	void draw();
-	void make_triangle();
+	void makeTriangle();
 
 private:
 	glhf::GLObject _triangle;
