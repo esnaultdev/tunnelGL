@@ -54,10 +54,10 @@ void Tunnel::makeSection(){
         for(int j = 0; j < TUNNEL_NB_POLY; j++) {
         	double theta = j * angleStep;
 
-        	double x = glm::cos(theta) * _radius * (1 - (float)i/_length);
-        	double y = glm::sin(theta) * _radius * (1 - (float)i/_length);
+        	double x = glm::cos(theta) * _radius;
+        	double y = glm::sin(theta) * _radius;
         	double z = sideLength * i + _posStartZ;
-        	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << " factor : " <<  (1 - (float)i/_length) << std::endl;
+        	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
 
             position.push_back(x);
 			position.push_back(y);
@@ -80,6 +80,7 @@ void Tunnel::makeSection(){
 			uv.push_back(0);
 
 			if (i != _length - 1 && _matrix[i][j] != 0) {
+				// Outside
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
@@ -87,6 +88,16 @@ void Tunnel::makeSection(){
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+
+				//Inside
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back(i * TUNNEL_NB_POLY + j);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
+
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+
 			}
         }
     }
