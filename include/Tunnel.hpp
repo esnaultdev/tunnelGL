@@ -4,7 +4,7 @@
 #include <vector>
 #include "glhfAPI.hpp"
 
-#define TUNNEL_LENGTH 20
+#define TUNNEL_NB_POINT_Z 2
 #define TUNNEL_NB_POLY 12
 #define TUNNEL_RADIUS 0.5
 
@@ -25,9 +25,9 @@ private:
 
 	glhf::GLObject _tunnelObj;
 	glhf::Program _prog;
-	int _matrix[TUNNEL_LENGTH][TUNNEL_NB_POLY];
+	int _matrix[TUNNEL_NB_POINT_Z][TUNNEL_NB_POLY];
 	float _radius = TUNNEL_RADIUS;
-	float _length = TUNNEL_LENGTH;
+	float _length;
 	float _posStartZ;
 };
 

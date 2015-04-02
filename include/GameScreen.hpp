@@ -9,6 +9,8 @@
 #include "Tunnel.hpp"
 #include "Player.hpp"
 
+#define NB_TUNNEL 2
+
 class GameScreen : public Screen {
 
 public:
@@ -18,11 +20,12 @@ public:
 	void update(double dt);
 	void draw();
 	void makeTriangle();
+	void nextTunnel();
 
 private:
 	glhf::GLObject _triangle;
 	glhf::Program _prog;
-	Tunnel _tunnel;
+	Tunnel _tunnel[NB_TUNNEL];
 	int _time = 0;
 	Player _player;
 };

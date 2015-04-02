@@ -25,7 +25,7 @@ void main() {
 	vec3 positionN = rotation * position;
 	positionN = rotation2 * positionN;
 	positionN = rotation3 * positionN;
-    vec4 positionH = vec4(positionN, 1);
+    vec4 positionH = vec4(position, 1);
     gl_Position =  positionH;
     color = vertexColor;
     fragNormal = normal;

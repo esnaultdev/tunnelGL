@@ -18,8 +18,8 @@ public:
 	~Player();
 	void update(double dt, float tunnelRadius);
 	void draw();
-	void getPos();
-	void getRadius();
+	glm::vec3 getPos();
+	float getRadius();
 
 private:
 	glm::vec3 _pos;

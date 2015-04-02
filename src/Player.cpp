@@ -48,3 +48,11 @@ void Player::update(double dt, float radiusTunnel) {
 void Player::draw() {
 
 }
+
+glm::vec3 Player::getPos() {
+	return _pos;
+}
+
+float Player::getRadius() {
+	return _radius;
+}
