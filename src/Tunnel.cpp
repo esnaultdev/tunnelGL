@@ -50,7 +50,7 @@ void Tunnel::makeSection(){
     double angleStep = 2 * M_PI / TUNNEL_NB_POLY;
     double sideLength = _radius * 2 * glm::sin(M_PI / TUNNEL_NB_POLY);
 
-    for(int i = 0; i < _length; i++) {
+    for(int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
         for(int j = 0; j < TUNNEL_NB_POLY; j++) {
         	double theta = j * angleStep;
 
@@ -64,12 +64,12 @@ void Tunnel::makeSection(){
 			position.push_back(z);
 
 			color.push_back(0);
-			color.push_back(0.6);
-			color.push_back(0.8);
+			color.push_back(cos(_posStartZ));
+			color.push_back(sin(_posStartZ));
 
 			glm::vec3 pos(x, y, z);
 			glm::vec3 center(0, 0, z);
-			glm::vec3 normalVec(pos-center);
+			glm::vec3 normalVec(center-pos);
 			normalVec = glm::normalize(normalVec);
 
 			normal.push_back(normalVec.x);
@@ -101,6 +101,8 @@ void Tunnel::makeSection(){
 			}
         }
     }
+
+    _length = sideLength * TUNNEL_NB_POINT_Z;
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
