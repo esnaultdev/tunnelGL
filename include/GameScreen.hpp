@@ -7,6 +7,7 @@
 
 #include "Screen.hpp"
 #include "Tunnel.hpp"
+#include "Player.hpp"
 
 class GameScreen : public Screen {
 
@@ -23,6 +24,7 @@ private:
 	glhf::Program _prog;
 	Tunnel _tunnel;
 	int _time = 0;
+	Player _player;
 };
 
 #endif

@@ -23,10 +23,14 @@ void GameScreen::init(){
 	makeTriangle();
 	_tunnel = Tunnel(_prog);
 	_tunnel.init(0.2);
+
+	_player = Player(_prog);
 }
 
 void GameScreen::update(double dt){
 	_time += dt * 100;
+
+	_player.update(dt, _tunnel.getRadius());
 }
 
 void GameScreen::draw(){
