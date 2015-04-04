@@ -114,3 +114,12 @@ float Tunnel::getPosEndZ() {
 float Tunnel::getRadius() {
 	return _radius;
 }
+
+bool Tunnel::isHole(float angle, float z) {
+	int posZ = ((int) ((z - _posStartZ) / _length * TUNNEL_NB_POINT_Z)) % TUNNEL_NB_POINT_Z;
+	int posAngle = (((int) std::abs(std::floor(angle / (M_PI * 2) * TUNNEL_NB_POLY)) % TUNNEL_NB_POLY));
+
+	std::cout << z << " " <<posZ << " " << posAngle << std::endl;
+
+	return ! _matrix[posZ][posAngle];
+}

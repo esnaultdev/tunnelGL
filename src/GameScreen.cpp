@@ -8,6 +8,8 @@
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
 
+extern GLFWwindow* window;
+
 GameScreen::GameScreen(glhf::Program prog){
 	_prog = prog;
 }
@@ -38,6 +40,10 @@ void GameScreen::init(){
 
 void GameScreen::update(double dt) {
 	_time += dt;
+	glm::vec3 offsetCamera(0, 0, -0);
+
+	if (_tunnel[0].isHole(_player.getAngle(), _player.getPos().z))
+		init();
 
 	_player.update(dt, _tunnel[0].getRadius());
 
@@ -47,7 +53,7 @@ void GameScreen::update(double dt) {
 	glm::vec3 posPlayer = _player.getPos();
 
 	glm::mat4 view = glm::lookAt(
-		posPlayer,
+		posPlayer + offsetCamera,
 		posPlayer + glm::vec3(0,0,10),
 		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
 	_camera = _projection * view;

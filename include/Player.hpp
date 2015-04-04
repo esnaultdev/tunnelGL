@@ -21,6 +21,7 @@ public:
 	glm::vec3 getPos();
 	float getRadius();
 	float getSpeed();
+	float getAngle();
 
 private:
 	glm::vec3 _pos;

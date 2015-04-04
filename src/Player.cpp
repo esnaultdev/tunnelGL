@@ -63,3 +63,7 @@ float Player::getRadius() {
 float Player::getSpeed() {
 	return _speed.z;
 }
+
+float Player::getAngle() {
+	return _angle;
+}

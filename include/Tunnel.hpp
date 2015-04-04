@@ -18,6 +18,7 @@ public:
 	void draw();
 	float getPosEndZ();
 	float getRadius();
+	bool isHole(float angle, float z);
 
 private:
 	void makeSection();
