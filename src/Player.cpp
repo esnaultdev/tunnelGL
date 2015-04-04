@@ -1,5 +1,8 @@
 #include "Player.hpp"
 #include <iostream>
+#include <GLFW/glfw3.h>
+
+extern GLFWwindow* window;
 
 Player::Player() {
 
@@ -17,17 +20,17 @@ Player::~Player() {
 
 void Player::update(double dt, float radiusTunnel) {
 	//Speed without friction on Z, but not on x and y
-	if ( _pos.z < 3 ) { //left
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ) { //left
 		_angleSpeed -= dt/8;
 		if (_angleSpeed < -ANGLESPEED_MAX)
 			_angleSpeed = -ANGLESPEED_MAX;
-	} else if ( false ) { //right	
+	} else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS ) { //right	
 		_angleSpeed += dt/8;
 		if (_angleSpeed > ANGLESPEED_MAX)
 			_angleSpeed = ANGLESPEED_MAX;
 	}
 	
-	if ( false ) { //boost
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) { //boost
 		_speed.z += dt/100.0 * 2;
 	} else {
 		_speed.z += dt/1000.0;

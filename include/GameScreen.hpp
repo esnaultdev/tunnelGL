@@ -14,7 +14,7 @@
 #include "Tunnel.hpp"
 #include "Player.hpp"
 
-#define NB_TUNNEL 2
+#define NB_TUNNEL 4
 
 class GameScreen : public Screen {
 

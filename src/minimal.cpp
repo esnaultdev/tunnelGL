@@ -88,9 +88,6 @@ void initGLFW() {
 	
 	/* GLFW callbak definitions */
     glfwSetFramebufferSizeCallback(window, &resize);
-    glfwSetKeyCallback(window, keyCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-
 }
 
 void initGLEW(){
