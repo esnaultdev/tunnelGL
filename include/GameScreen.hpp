@@ -34,6 +34,7 @@ private:
 	glm::mat4 _projection;
 	glm::mat4 _camera;
 	GLuint _cameraID;
+	float _lightdirnID;
 };
 
 #endif
