@@ -24,11 +24,9 @@ public:
 	void init();
 	void update(double dt);
 	void draw();
-	void makeTriangle();
 	void nextTunnel();
 
 private:
-	glhf::GLObject _triangle;
 	glhf::Program _prog;
 	Tunnel _tunnel[NB_TUNNEL];
 	int _time = 0;

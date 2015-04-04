@@ -8,7 +8,7 @@
 #include "glhfAPI.hpp"
 
 #define FRICTION 0.95
-#define ANGLESPEED_MAX M_PI/60
+#define ANGLESPEED_MAX M_PI/30
 
 class Player {
 
@@ -20,6 +20,7 @@ public:
 	void draw();
 	glm::vec3 getPos();
 	float getRadius();
+	float getSpeed();
 
 private:
 	glm::vec3 _pos;

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
+#include <cmath>
 #include "Tunnel.hpp"
 
 #include <glm/glm.hpp>
@@ -57,15 +57,15 @@ void Tunnel::makeSection(){
         	double x = glm::cos(theta) * _radius;
         	double y = glm::sin(theta) * _radius;
         	double z = sideLength * i + _posStartZ;
-        	std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
+        	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
 
             position.push_back(x);
 			position.push_back(y);
 			position.push_back(z);
 
-			color.push_back(0.8);
-			color.push_back(cos(_posStartZ));
-			color.push_back(sin(_posStartZ));
+			color.push_back(cos(_posStartZ) + sin(_posStartZ));
+			color.push_back(std::abs(cos(_posStartZ)));
+			color.push_back(std::abs(sin(_posStartZ)));
 
 			glm::vec3 pos(x, y, z);
 			glm::vec3 center(0, 0, z);
