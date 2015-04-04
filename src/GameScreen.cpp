@@ -23,15 +23,9 @@ void GameScreen::init(){
 	Sphere *s = new Sphere(glm::vec3(-0.5, -0.5, 0), 1);
 	std::cout << b->collideWith(s) << std::endl;
 	initText2D("../resources/test.DDS", 11);
-	_tunnel[0] = Tunnel(_prog);
-	_tunnel[0].init(0);
-
-	for (int i = 1; i < NB_TUNNEL; ++i) {
-		_tunnel[i] = Tunnel(_prog);
-		_tunnel[i].init(_tunnel[i-1].getPosEndZ());
-	}
-
+	
 	_player = Player(_prog);
+	_tunnel = Tunnel(_prog, &_player);
 	_camera = Camera(_prog, &_player);
 	_lightdirnID = glGetUniformLocation(_prog.getId(), "lightdirn");
 }
@@ -39,14 +33,11 @@ void GameScreen::init(){
 void GameScreen::update(double dt) {
 	_time += dt;
 
-	_player.update(dt, _tunnel[0].getRadius());
+	_player.update(dt, _tunnel.getRadius());
 
 	glm::vec3 posPlayer = _player.getPos();
 
-	if (_player.getPos().z >= _tunnel[0].getPosEndZ())
-		nextTunnel();
-
-	if (_tunnel[0].isHole(_player.getAngle(), _player.getPos().z))
+	if (_tunnel.update(dt))
 		init();
 
 	_camera.update(dt);
@@ -56,24 +47,12 @@ void GameScreen::update(double dt) {
 	glUniform3f(_lightdirnID, light.x, light.y, 1);
 }
 
-void GameScreen::nextTunnel() {
-	Tunnel tunnel = Tunnel(_prog);
-	tunnel.init(_tunnel[NB_TUNNEL - 1].getPosEndZ());
-
-	for (int i = 1; i < NB_TUNNEL; ++i) {
-		_tunnel[i-1] = _tunnel[i];
-	}
-
-	_tunnel[NB_TUNNEL - 1] = tunnel;
-}
-
 void GameScreen::draw(){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	//_triangle.draw();
 	
-	for (int i = 0; i < NB_TUNNEL; ++i)
-		_tunnel[i].draw();
+	_tunnel.draw();
 
 	_player.draw();
 	glDisable(GL_DEPTH_TEST);
