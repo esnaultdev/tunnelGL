@@ -4,7 +4,7 @@
 #include <vector>
 #include "glhfAPI.hpp"
 
-#define TUNNEL_NB_POINT_Z 2
+#define TUNNEL_NB_POINT_Z 20
 #define TUNNEL_NB_POLY 12
 #define TUNNEL_RADIUS 0.5
 

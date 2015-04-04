@@ -32,9 +32,9 @@ void Tunnel::draw(){
 void Tunnel::generateMatrix(){
 	srand(time(NULL));
 
-    for (int i = 0; i < _length; i++) {
+    for (int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
     	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
-    		_matrix[i][j] = (rand()%100 +1 >95) ? 0 : 1 ;
+    		_matrix[i][j] = (rand()%100 +1 > 97) ? 0 : 1 ;
     	}
     }
 
@@ -63,7 +63,7 @@ void Tunnel::makeSection(){
 			position.push_back(y);
 			position.push_back(z);
 
-			color.push_back(0);
+			color.push_back(0.8);
 			color.push_back(cos(_posStartZ));
 			color.push_back(sin(_posStartZ));
 
@@ -101,7 +101,7 @@ void Tunnel::makeSection(){
         }
     }
 
-    _length = sideLength * TUNNEL_NB_POINT_Z;
+    _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();

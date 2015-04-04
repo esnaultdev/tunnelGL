@@ -28,9 +28,9 @@ void Player::update(double dt, float radiusTunnel) {
 	}
 	
 	if ( false ) { //boost
-		_speed.z += dt/10.0; // * 2;
+		_speed.z += dt/100.0 * 2;
 	} else {
-		_speed.z += 0; //dt/10.0;
+		_speed.z += dt/1000.0;
 	}
 
 	_angle += _angleSpeed;

@@ -9,6 +9,7 @@ in vec2 uv;
 out vec3 color; 
 out vec3 fragNormal;
 
+uniform mat4 viewProjection;
 uniform float time;
 
 mat3x3 rotation = mat3x3(-sin(time), 0, cos(time),
@@ -26,7 +27,7 @@ void main() {
 	positionN = rotation2 * positionN;
 	positionN = rotation3 * positionN;
     vec4 positionH = vec4(position, 1);
-    gl_Position =  positionH;
+    gl_Position =  viewProjection * positionH;
     color = vertexColor;
     fragNormal = normal;
 }

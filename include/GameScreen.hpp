@@ -3,6 +3,11 @@
 
 #include <vector>
 #include <GL/glew.h> 
+#include <glm/glm.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
+
 #include "glhfAPI.hpp"
 
 #include "Screen.hpp"
@@ -28,6 +33,9 @@ private:
 	Tunnel _tunnel[NB_TUNNEL];
 	int _time = 0;
 	Player _player;
+	glm::mat4 _projection;
+	glm::mat4 _camera;
+	GLuint _cameraID;
 };
 
 #endif

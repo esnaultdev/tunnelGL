@@ -30,6 +30,10 @@ void GameScreen::init(){
 	}
 
 	_player = Player(_prog);
+
+	//Camera
+	_projection = glm::perspective(45.0f, 1024.0f/800.0f, 0.1f, 100.0f);
+	_cameraID = glGetUniformLocation(_prog.getId(), "viewProjection");
 }
 
 void GameScreen::update(double dt) {
@@ -37,8 +41,17 @@ void GameScreen::update(double dt) {
 
 	_player.update(dt, _tunnel[0].getRadius());
 
-	if (_player.getPos().z >= _tunnel[NB_TUNNEL - 1].getPosEndZ())
+	if (_player.getPos().z >= _tunnel[0].getPosEndZ())
 		nextTunnel();
+
+	glm::vec3 posPlayer = _player.getPos();
+
+	glm::mat4 view = glm::lookAt(
+		posPlayer,
+		posPlayer + glm::vec3(0,0,10),
+		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
+	_camera = _projection * view;
+	glUniformMatrix4fv(_cameraID, 1, GL_FALSE, &_camera[0][0]);
 }
 
 void GameScreen::nextTunnel() {
