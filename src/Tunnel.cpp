@@ -34,7 +34,7 @@ void Tunnel::generateMatrix(){
 
     for (int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
     	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
-    		_matrix[i][j] = (rand()%100 +1 > 97) ? 0 : 1 ;
+    		_matrix[i][j] = (rand()%100 +1 > 99) ? 0 : 1 ;
     	}
     }
 

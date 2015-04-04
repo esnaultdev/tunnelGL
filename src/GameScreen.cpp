@@ -36,6 +36,7 @@ void GameScreen::init(){
 	//Camera
 	_projection = glm::perspective(45.0f, 1024.0f/800.0f, 0.1f, 100.0f);
 	_cameraID = glGetUniformLocation(_prog.getId(), "viewProjection");
+	_lightdirnID = glGetUniformLocation(_prog.getId(), "lightdirn");
 }
 
 void GameScreen::update(double dt) {
@@ -58,6 +59,10 @@ void GameScreen::update(double dt) {
 		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
 	_camera = _projection * view;
 	glUniformMatrix4fv(_cameraID, 1, GL_FALSE, &_camera[0][0]);
+
+	glm::vec2 light(-posPlayer.x, -posPlayer.y);
+	light = glm::normalize(light);
+	glUniform3f(_lightdirnID, light.x, light.y, 1);
 }
 
 void GameScreen::nextTunnel() {
