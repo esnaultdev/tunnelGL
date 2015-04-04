@@ -32,18 +32,16 @@ void GameScreen::init(){
 	}
 
 	_player = Player(_prog);
-
-	//Camera
-	_projection = glm::perspective(45.0f, 1024.0f/800.0f, 0.1f, 100.0f);
-	_cameraID = glGetUniformLocation(_prog.getId(), "viewProjection");
+	_camera = Camera(_prog, &_player);
 	_lightdirnID = glGetUniformLocation(_prog.getId(), "lightdirn");
 }
 
 void GameScreen::update(double dt) {
 	_time += dt;
-	glm::vec3 offsetCamera(0, 0, -0);
 
 	_player.update(dt, _tunnel[0].getRadius());
+
+	glm::vec3 posPlayer = _player.getPos();
 
 	if (_player.getPos().z >= _tunnel[0].getPosEndZ())
 		nextTunnel();
@@ -51,14 +49,7 @@ void GameScreen::update(double dt) {
 	if (_tunnel[0].isHole(_player.getAngle(), _player.getPos().z))
 		init();
 
-	glm::vec3 posPlayer = _player.getPos();
-
-	glm::mat4 view = glm::lookAt(
-		posPlayer + offsetCamera,
-		posPlayer + glm::vec3(0,0,10),
-		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
-	_camera = _projection * view;
-	glUniformMatrix4fv(_cameraID, 1, GL_FALSE, &_camera[0][0]);
+	_camera.update(dt);
 
 	glm::vec2 light(-posPlayer.x, -posPlayer.y);
 	light = glm::normalize(light);
