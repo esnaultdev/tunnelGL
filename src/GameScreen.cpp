@@ -43,13 +43,13 @@ void GameScreen::update(double dt) {
 	_time += dt;
 	glm::vec3 offsetCamera(0, 0, -0);
 
-	if (_tunnel[0].isHole(_player.getAngle(), _player.getPos().z))
-		init();
-
 	_player.update(dt, _tunnel[0].getRadius());
 
 	if (_player.getPos().z >= _tunnel[0].getPosEndZ())
 		nextTunnel();
+
+	if (_tunnel[0].isHole(_player.getAngle(), _player.getPos().z))
+		init();
 
 	glm::vec3 posPlayer = _player.getPos();
 
