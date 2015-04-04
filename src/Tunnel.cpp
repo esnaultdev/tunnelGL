@@ -63,9 +63,10 @@ void Tunnel::makeSection(){
 			position.push_back(y);
 			position.push_back(z);
 
-			color.push_back(cos(_posStartZ) + sin(_posStartZ));
-			color.push_back(std::abs(cos(_posStartZ)));
-			color.push_back(std::abs(sin(_posStartZ)));
+			double colorAlea = _posStartZ + i * sideLength;
+			color.push_back(cos(colorAlea) + sin(colorAlea));
+			color.push_back(std::abs(cos(colorAlea)));
+			color.push_back(std::abs(sin(colorAlea)));
 
 			glm::vec3 pos(x, y, z);
 			glm::vec3 center(0, 0, z);
