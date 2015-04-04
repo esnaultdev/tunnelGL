@@ -48,7 +48,8 @@ void Tunnel::makeSection(){
 	std::vector<float> uv;
 
     double angleStep = 2 * M_PI / TUNNEL_NB_POLY;
-    double sideLength = _radius * 2 * glm::sin(M_PI / TUNNEL_NB_POLY);
+    double sideLength = _radius * 2 * glm::sin(M_PI / TUNNEL_NB_POLY)*3;
+    _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
 
     for(int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
         for(int j = 0; j < TUNNEL_NB_POLY; j++) {
@@ -63,7 +64,7 @@ void Tunnel::makeSection(){
 			position.push_back(y);
 			position.push_back(z);
 
-			double colorAlea = _posStartZ + i * sideLength;
+			double colorAlea = (_posStartZ + i * sideLength) / _length;
 			color.push_back(cos(colorAlea) + sin(colorAlea));
 			color.push_back(std::abs(cos(colorAlea)));
 			color.push_back(std::abs(sin(colorAlea)));
@@ -101,8 +102,6 @@ void Tunnel::makeSection(){
 			}
         }
     }
-
-    _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
