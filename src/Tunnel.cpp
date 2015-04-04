@@ -102,8 +102,7 @@ void Tunnel::makeSection(){
 			}
         }
     }
-
-	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
+	_tunnelObj = glhf::GLObject(_prog, position.size() / 3, indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
 }
 

@@ -12,10 +12,14 @@ Player::Player(glhf::Program prog) {
 	//build the player object with prog
 	_pos = glm::vec3(0, 0, 0);
 	_speed = glm::vec3(0, 0, 0.01);
+	_obj.setProgram(prog);
+	_obj.load("cube.obj");
+	_obj.initVao();
+	_obj.scale(0.5);
 }
 
 Player::~Player() {
-
+	_obj.draw();
 }
 
 void Player::update(double dt, float radiusTunnel) {
@@ -49,7 +53,7 @@ void Player::update(double dt, float radiusTunnel) {
 }
 
 void Player::draw() {
-
+	_obj.draw();
 }
 
 glm::vec3 Player::getPos() {

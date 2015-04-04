@@ -29,6 +29,7 @@ private:
 	float _angle = M_PI/2 * 3;
 	float _angleSpeed = 0;
 	float _radius = 0.2;
+	glhf::GLObject _obj;
 };
 
 #endif

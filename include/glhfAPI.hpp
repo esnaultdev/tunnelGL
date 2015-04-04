@@ -10,6 +10,11 @@
 #include "utils/utils.h"
 #include "utils/shaders.h"
 
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+
+
 namespace glhf {
 
 	class Program {
@@ -29,7 +34,10 @@ namespace glhf {
 
 	class GLObject {
 		public:
-			GLObject(void) { }
+			GLObject(void) {
+				mode = GL_TRIANGLES;
+				_wasInit = false;
+			}
 
 			GLObject(glhf::Program prog, int vertexCount, int indexCount, std::vector<unsigned int> indices, std::vector<float> position, std::vector<float> color, std::vector<float> normal, std::vector<float> uv){
 				this->prog = prog;
@@ -43,13 +51,29 @@ namespace glhf {
 				this->uv = uv;
 
 				mode = GL_TRIANGLES;
+				_wasInit = false;
 			}
 
 			void setMode(GLenum mode) {
 				this->mode = mode;
 			}
 
+			void setProgram(glhf::Program prog) {
+				this->prog = prog;
+			}
+
+			void setAttributes(int vertexCount, int indexCount, std::vector<unsigned int> indices, std::vector<float> position, std::vector<float> color, std::vector<float> normal, std::vector<float> uv){
+				this->vertexCount = vertexCount;
+				this->indexCount = indexCount;
+				this->indices = indices;
+				this->color = color;
+				this->position = position;
+				this->normal = normal;
+				this->uv = uv;
+			}
+
 			void initVao(){
+				_wasInit = true;
 				//---------GPU side version
 				glGenBuffers(1, &positionBuffer);
 				glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
@@ -117,6 +141,71 @@ namespace glhf {
 				glUseProgram(0);
 			}
 
+			void load(std::string filename){
+  				Assimp::Importer importer;
+				
+				const aiScene *scene = importer.ReadFile(filename, aiProcessPreset_TargetRealtime_Fast);
+
+				if( !scene) {
+					std::cout << "Failed to load object: " << importer.GetErrorString() << std::endl;
+				}
+ 
+				aiMesh *mesh = scene->mMeshes[0];
+
+				std::vector<unsigned int> indices; 	
+				std::vector<float> position;
+				std::vector<float> color;
+				std::vector<float> normal;
+				std::vector<float> uv;
+
+				for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+					const aiFace& face = mesh->mFaces[i];
+				 
+					for (int j = 0; j < 3; j++) {
+						//std::cout << "(i, j) " << i << ", " << j << std::endl;
+
+						if (mesh->HasTextureCoords(0)){
+							aiVector3D uvMesh = mesh->mTextureCoords[0][face.mIndices[j]];
+							uv.push_back(uvMesh[0]);
+							uv.push_back(uvMesh[1]);
+						} else {
+							uv.push_back(0);
+							uv.push_back(0);
+						}
+						 
+						aiVector3D normalMesh = mesh->mNormals[face.mIndices[j]];
+						normal.push_back(normalMesh[0]);
+						normal.push_back(normalMesh[1]);
+						normal.push_back(normalMesh[2]);
+						 
+						aiVector3D posMesh = mesh->mVertices[face.mIndices[j]];
+						//std::cout << "posMesh: " << posMesh[0] << " " << posMesh[1] << " " << posMesh[2] << std::endl;
+						position.push_back(posMesh[0]);
+						position.push_back(posMesh[1]);
+						position.push_back(posMesh[2]+2);
+
+						color.push_back(1);
+						color.push_back(1);
+						color.push_back(1);
+
+						indices.push_back(i * 3 + j);
+					}
+				}
+				std::cout << "Obj loaded: " << filename << " (" << position.size() / 3 << " vertices, " << indices.size() << " indices)" << std::endl;
+				setAttributes(position.size() / 3, indices.size(), indices, position, color, normal, uv);
+			}
+
+			void scale(float factor) {
+				for (int i = 0; i < position.size(); i++) {
+					position.at(i) = position.at(i) * factor;
+				}
+
+				if (_wasInit) {
+					glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+					glBufferData(GL_ARRAY_BUFFER, position.size() * sizeof(float), position.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+				}
+			}
 
 
 		private:
@@ -138,6 +227,8 @@ namespace glhf {
 			std::vector<float> uv;
 			std::vector<unsigned int> indices;
 			glhf::Program prog;
+
+			bool _wasInit;
 	};
 
 }

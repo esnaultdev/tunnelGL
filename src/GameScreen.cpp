@@ -79,7 +79,6 @@ void GameScreen::nextTunnel() {
 void GameScreen::draw(){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	//_triangle.draw();
 	
 	for (int i = 0; i < NB_TUNNEL; ++i)
 		_tunnel[i].draw();
