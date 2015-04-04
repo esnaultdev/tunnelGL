@@ -49,9 +49,7 @@ namespace glhf {
 				this->mode = mode;
 			}
 
-			bool initVao(){
-				indexCount = vertexCount * 6;
-
+			void initVao(){
 				//---------GPU side version
 				glGenBuffers(1, &positionBuffer);
 				glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
