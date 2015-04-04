@@ -8,6 +8,7 @@ in vec2 uv;
 // out (outputs)
 out vec3 color; 
 out vec3 fragNormal;
+out vec2 fragUv;
 
 uniform mat4 viewProjection;
 uniform float time;
@@ -30,4 +31,5 @@ void main() {
     gl_Position =  viewProjection * positionH;
     color = vertexColor;
     fragNormal = normal;
+    fragUv = uv;
 }
