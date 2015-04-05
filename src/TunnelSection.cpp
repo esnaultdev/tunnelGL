@@ -124,8 +124,8 @@ void TunnelSection::makeSection(){
 				normalCube.push_back(0);
 				normalCube.push_back(-1);
 
-				uvCube.push_back(0);
-				uvCube.push_back(0);
+				uvCube.push_back((i+1) % 2);
+				uvCube.push_back(j % 2);
 
 				offset++;
 
@@ -145,8 +145,8 @@ void TunnelSection::makeSection(){
 				normalCube.push_back(0);
 				normalCube.push_back(-1);
 
-				uvCube.push_back(1);
-				uvCube.push_back(1);
+				uvCube.push_back((i+1) % 2);
+				uvCube.push_back((j+1) % 2);
 
 				offset ++;
 	
