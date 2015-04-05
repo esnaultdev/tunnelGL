@@ -28,7 +28,7 @@ private:
 	glm::vec3 _speed;
 	float _angle = M_PI/2 * 3;
 	float _angleSpeed = 0;
-	float _radius = 0.2;
+	float _radius = 0.1;
 	glhf::GLObject _obj;
 };
 

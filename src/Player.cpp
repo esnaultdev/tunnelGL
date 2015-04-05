@@ -15,7 +15,7 @@ Player::Player(glhf::Program prog) {
 	_obj.setProgram(prog);
 	_obj.load("cube.obj");
 	_obj.initVao();
-	_obj.scale(_radius / 0.5);
+	_obj.scale(_radius * 2 / 0.5);
 }
 
 Player::~Player() {
