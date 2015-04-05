@@ -116,9 +116,9 @@ void TunnelSection::makeSection(){
 				positionCube.push_back(yy);
 				positionCube.push_back(z);
 
-				colorCube.push_back(0);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(0);//std::abs(cos(colorAlea)));
-				colorCube.push_back(0);//std::abs(sin(colorAlea)));
+				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(1);//std::abs(cos(colorAlea)));
+				colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
 				normalCube.push_back(0);
 				normalCube.push_back(0);
@@ -137,9 +137,9 @@ void TunnelSection::makeSection(){
 				positionCube.push_back(yy);
 				positionCube.push_back(z);
 
-				colorCube.push_back(0);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(0);//std::abs(cos(colorAlea)));
-				colorCube.push_back(0);//std::abs(sin(colorAlea)));
+				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(1);//std::abs(cos(colorAlea)));
+				colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
 				normalCube.push_back(0);
 				normalCube.push_back(0);
