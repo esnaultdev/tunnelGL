@@ -78,8 +78,8 @@ void TunnelSection::makeSection(){
 			normal.push_back(normalVec.y);
 			normal.push_back(normalVec.z);
 
-			uv.push_back(0);
-			uv.push_back(0);
+			uv.push_back(i % 2);
+			uv.push_back(j % 2);
 
 			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] != 0) {
 				// Outside
@@ -105,6 +105,7 @@ void TunnelSection::makeSection(){
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
+	_tunnelObj.setTexture("tunnelUnit.tga");
 }
 
 float TunnelSection::getPosEndZ() {

@@ -9,6 +9,7 @@
 
 #include "utils/utils.h"
 #include "utils/shaders.h"
+#include "utils/textures.h"
 
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
@@ -72,6 +73,30 @@ namespace glhf {
 				this->uv = uv;
 			}
 
+			void reloadBuffers(){
+				if (_wasInit) {
+					glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+					glBufferData(GL_ARRAY_BUFFER, position.size() * sizeof(float), position.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+				
+					glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+					glBufferData(GL_ARRAY_BUFFER, normal.size() * sizeof(float), normal.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+					glBufferData(GL_ARRAY_BUFFER, color.size() * sizeof(float), color.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);    
+					
+					glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+					glBufferData(GL_ARRAY_BUFFER, uv.size() * sizeof(float), uv.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);    
+
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				}
+			}
+
 			void initVao(){
 				_wasInit = true;
 				//---------GPU side version
@@ -126,19 +151,23 @@ namespace glhf {
 	
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
-				////--------- Deactivation (clean OpenGl state!!)
-				glBindVertexArray(0);
-
-				//Texturing
-				//textureId = loadTGATexture("zebra.tga", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, true);            
+				glBindVertexArray(0);          
 			}
 
 			void draw(){
 				glUseProgram(prog.getId());
 				glBindVertexArray(vao);
+				if (textureId) 
+					glBindTexture(GL_TEXTURE_2D, textureId);
 				glDrawElements(mode, indexCount, GL_UNSIGNED_INT, 0);
+				if (textureId) 
+					glDisable(GL_TEXTURE_2D);
 				glBindVertexArray(0);
 				glUseProgram(0);
+			}
+
+			void setTexture(const std::string& imagepath, GLenum wrap_s=GL_REPEAT, GLenum wrap_t=GL_REPEAT, GLenum mag_filter=GL_LINEAR, GLenum min_filter=GL_LINEAR_MIPMAP_LINEAR, bool anisotropy=false) {
+				textureId = loadTGATexture(imagepath, wrap_s, wrap_t, mag_filter, min_filter, anisotropy);  
 			}
 
 			void load(std::string filename){
@@ -209,7 +238,7 @@ namespace glhf {
 
 
 		private:
-			GLuint textureId;
+			GLuint textureId = 0;
 			GLuint vao;
 			int indexCount;
 			int vertexCount;
