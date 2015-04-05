@@ -166,7 +166,7 @@ namespace glhf {
 				glUseProgram(0);
 			}
 
-			void setTexture(const std::string& imagepath, GLenum wrap_s=GL_REPEAT, GLenum wrap_t=GL_REPEAT, GLenum mag_filter=GL_LINEAR, GLenum min_filter=GL_LINEAR_MIPMAP_LINEAR, bool anisotropy=false) {
+			void setTexture(const std::string& imagepath, GLenum wrap_s=GL_REPEAT, GLenum wrap_t=GL_REPEAT, GLenum mag_filter=GL_LINEAR, GLenum min_filter=GL_LINEAR_MIPMAP_LINEAR, float anisotropy=0) {
 				textureId = loadTGATexture(imagepath, wrap_s, wrap_t, mag_filter, min_filter, anisotropy);  
 			}
 

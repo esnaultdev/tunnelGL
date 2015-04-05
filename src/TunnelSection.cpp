@@ -105,7 +105,7 @@ void TunnelSection::makeSection(){
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
-	_tunnelObj.setTexture("tunnelUnit.tga");
+	_tunnelObj.setTexture("tunnelUnit.tga", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, 10.0);
 }
 
 float TunnelSection::getPosEndZ() {

@@ -12,7 +12,7 @@ static short le_short(unsigned char *bytes)/*{{{*/
     return bytes[0] | ((char)bytes[1] << 8);
 }/*}}}*/
 
-GLuint loadTGATexture(const std::string& imagepath, GLenum wrap_s, GLenum wrap_t, GLenum mag_filter, GLenum min_filter, bool anisotropy)/*{{{*/
+GLuint loadTGATexture(const std::string& imagepath, GLenum wrap_s, GLenum wrap_t, GLenum mag_filter, GLenum min_filter, float anisotropy)/*{{{*/
 {             
     //!todo [Textures] exercice 1: load a texture from a file into the GPU as follows,
     //  1) Generate a texture location in GPU	
