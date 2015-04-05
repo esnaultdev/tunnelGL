@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include <cmath>
 #include "GameScreen.hpp"
 
@@ -57,8 +56,5 @@ void GameScreen::draw(){
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
-	std::ostringstream strs;
-	strs << std::floor(_player.getSpeed() * 1000) << "km_h";
-	std::string str = strs.str();
-	printText2D(strs.str().c_str(), 400, 30, 40);
+	_player.drawText();
 }
