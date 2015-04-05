@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <cmath>
 #include "GameScreen.hpp"
 
@@ -61,4 +62,13 @@ void GameScreen::draw(){
 	glDisable(GL_CULL_FACE);
 
 	_player.drawText();
+
+	std::ostringstream strs3;
+	int sec = ((int)_time) % 60;
+	strs3 << std::floor(std::floor(_time/60)) << ":";
+	if (sec < 10)
+		strs3 << "0" << sec;
+	else
+		strs3 << sec;
+	printText2D(strs3.str().c_str(), 800, 750, 50);
 }
