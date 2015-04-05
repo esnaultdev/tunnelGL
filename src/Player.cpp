@@ -1,6 +1,8 @@
 #include "Player.hpp"
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include <sstream>
+#include "PrintText.hpp"
 
 extern GLFWwindow* window;
 
@@ -36,8 +38,10 @@ void Player::update(double dt, float radiusTunnel) {
 	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) { //boost
 		_speed.z += dt/100.0 * 2;
+		_score += dt * _speed.z * 2000;
 	} else {
 		_speed.z += dt/1000.0;
+		_score += dt * _speed.z * 1000;
 	}
 
 	_angle += _angleSpeed;
@@ -54,6 +58,14 @@ void Player::update(double dt, float radiusTunnel) {
 
 void Player::draw() {
 	_obj.draw();
+
+	std::ostringstream strs;
+	strs << std::floor(_score);
+	printText2D(strs.str().c_str(), 30, 750, 50);
+
+	std::ostringstream strs2;
+	strs2 << std::floor(getSpeed() * 1000) << "km_h";
+	printText2D(strs2.str().c_str(), 400, 30, 40);
 }
 
 glm::vec3 Player::getPos() {

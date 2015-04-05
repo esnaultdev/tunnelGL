@@ -30,6 +30,7 @@ private:
 	float _angleSpeed = 0;
 	float _radius = 0.2;
 	glhf::GLObject _obj;
+	float _score = 0;
 };
 
 #endif

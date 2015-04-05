@@ -23,7 +23,7 @@ public:
 private:
 	glhf::Program _prog;
 
-	int _time = 0;
+	float _time = 0;
 	Player _player;
 	Camera _camera;
 	Tunnel _tunnel;
