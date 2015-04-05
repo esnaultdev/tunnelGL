@@ -46,15 +46,6 @@ SkyTube::SkyTube(glhf::Program prog, glm::vec3 pos){
 			uv.push_back(j % 2);
 
 			if (i != SKYTUBE_NB_POINT_Z - 1) {
-				// Outside
-				indices.push_back(i * SKYTUBE_NB_POLY + j);
-				indices.push_back(i * SKYTUBE_NB_POLY + ((j+1) % SKYTUBE_NB_POLY));
-				indices.push_back((i+1) * SKYTUBE_NB_POLY + j);
-
-				indices.push_back((i+1) * SKYTUBE_NB_POLY + j);
-				indices.push_back(i * SKYTUBE_NB_POLY + ((j+1) % SKYTUBE_NB_POLY));
-				indices.push_back((i+1) * SKYTUBE_NB_POLY + ((j+1) % SKYTUBE_NB_POLY));
-
 				//Inside
 				indices.push_back(i * SKYTUBE_NB_POLY + ((j+1) % SKYTUBE_NB_POLY));
 				indices.push_back(i * SKYTUBE_NB_POLY + j);
