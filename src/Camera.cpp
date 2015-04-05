@@ -19,9 +19,7 @@ Camera::Camera(glhf::Program prog, Player *player) {
 
 void Camera::update(double dt) {
 	glm::vec3 posPlayer = _player->getPos();
-	glm::vec3 offsetCamera(0, 0, -0);
-	posPlayer.x *= 0.25;
-	posPlayer.y *= 0.25;
+	glm::vec3 offsetCamera(-posPlayer.x*0.25, -posPlayer.y*0.25, 0);
 
 	glm::mat4 view = glm::lookAt(
 		posPlayer + offsetCamera,
