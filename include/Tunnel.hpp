@@ -1,35 +1,26 @@
 #ifndef _TUNNEL
 #define _TUNNEL
 
-#include <vector>
-#include "glhfAPI.hpp"
+#define NB_TUNNEL 4
 
-#define TUNNEL_NB_POINT_Z 20
-#define TUNNEL_NB_POLY 12
-#define TUNNEL_RADIUS 0.5
+#include "Player.hpp"
+#include "glhfAPI.hpp"
+#include "TunnelSection.hpp"
 
 class Tunnel {
 
 public:
 	Tunnel();
-	Tunnel(glhf::Program prog);
+	Tunnel(glhf::Program prog, Player *player);
 	~Tunnel();
-	void init(float posStartZ);
+	void nextTunnel();
+	bool update(double dt);
 	void draw();
-	float getPosEndZ();
 	float getRadius();
-	bool isHole(float angle, float z);
-
 private:
-	void makeSection();
-	void generateMatrix();
-
-	glhf::GLObject _tunnelObj;
 	glhf::Program _prog;
-	int _matrix[TUNNEL_NB_POINT_Z][TUNNEL_NB_POLY];
-	float _radius = TUNNEL_RADIUS;
-	float _length;
-	float _posStartZ;
+	Player *_player;
+	TunnelSection _tunnel[NB_TUNNEL];
 };
 
 #endif
