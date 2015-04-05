@@ -1,4 +1,5 @@
 #include "SkyTube.hpp"
+#include <iostream>
 
 SkyTube::SkyTube() {
 
@@ -42,8 +43,8 @@ SkyTube::SkyTube(glhf::Program prog, glm::vec3 pos){
 			normal.push_back(normalVec.y);
 			normal.push_back(normalVec.z);
 
-			uv.push_back(i % 2);
 			uv.push_back(j % 2);
+			uv.push_back(i % 2);
 
 			if (i != SKYTUBE_NB_POINT_Z - 1) {
 				//Inside
@@ -60,7 +61,7 @@ SkyTube::SkyTube(glhf::Program prog, glm::vec3 pos){
 
 	_obj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_obj.initVao();
-	_obj.setTexture("tunnelUnit.tga", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, 10.0);
+	_obj.setTexture("skyTube.tga", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, 10.0);
 	_obj.setTranslation(pos[0], pos[1], pos[2]);
 }
 
