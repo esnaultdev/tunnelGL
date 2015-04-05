@@ -26,6 +26,7 @@ void GameScreen::init(){
 	_player = Player(_prog);
 	_tunnel = Tunnel(_prog, &_player);
 	_camera = Camera(_prog, &_player);
+	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_lightdirnID = glGetUniformLocation(_prog.getId(), "lightdirn");
 }
 
@@ -40,6 +41,7 @@ void GameScreen::update(double dt) {
 		init();
 
 	_camera.update(dt);
+	_skytube.setPos(posPlayer);
 
 	glm::vec2 light(-posPlayer.x, -posPlayer.y);
 	light = glm::normalize(light);
@@ -51,8 +53,10 @@ void GameScreen::draw(){
 	glEnable(GL_CULL_FACE);
 	
 	_tunnel.draw();
-
 	_player.draw();
+	_skytube.draw();
+
+
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 

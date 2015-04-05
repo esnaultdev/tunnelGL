@@ -10,6 +10,7 @@
 #include "Tunnel.hpp"
 #include "Player.hpp"
 #include "Camera.hpp"
+#include "SkyTube.hpp"
 
 class GameScreen : public Screen {
 
@@ -27,6 +28,7 @@ private:
 	Player _player;
 	Camera _camera;
 	Tunnel _tunnel;
+	SkyTube _skytube;
 	GLint _lightdirnID;
 };
 
