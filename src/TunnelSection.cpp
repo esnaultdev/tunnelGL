@@ -47,9 +47,17 @@ void TunnelSection::makeSection(){
 	std::vector<float> normal;
 	std::vector<float> uv;
 
+	std::vector<float> positionCube;
+	std::vector<float> colorCube;
+	std::vector<float> normalCube;
+	std::vector<float> uvCube;
+
     double angleStep = 2 * M_PI / TUNNEL_NB_POLY;
     double sideLength = _radius * 2 * glm::sin(M_PI / TUNNEL_NB_POLY)*3;
     _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
+
+
+    int offset = -2;
 
     for(int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
         for(int j = 0; j < TUNNEL_NB_POLY; j++) {
@@ -99,9 +107,65 @@ void TunnelSection::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+			} else if (_matrix[i][j] == 0) {
+
+				double xx = glm::cos(theta) * _radius/2;
+				double yy = glm::sin(theta) * _radius/2;
+
+				positionCube.push_back(xx);
+				positionCube.push_back(yy);
+				positionCube.push_back(z);
+
+				colorCube.push_back(cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(std::abs(cos(colorAlea)));
+				colorCube.push_back(std::abs(sin(colorAlea)));
+
+				normalCube.push_back(0);
+				normalCube.push_back(0);
+				normalCube.push_back(-1);
+
+				uvCube.push_back(0);
+				uvCube.push_back(0);
+
+				offset++;
+
+				theta = (j+1) * angleStep;
+				xx = glm::cos(theta) * _radius/2;
+				yy = glm::sin(theta) * _radius/2;
+
+				positionCube.push_back(xx);
+				positionCube.push_back(yy);
+				positionCube.push_back(z);
+
+				colorCube.push_back(cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(std::abs(cos(colorAlea)));
+				colorCube.push_back(std::abs(sin(colorAlea)));
+
+				normalCube.push_back(0);
+				normalCube.push_back(0);
+				normalCube.push_back(-1);
+
+				uvCube.push_back(1);
+				uvCube.push_back(1);
+
+				offset ++;
+	
+
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back(i * TUNNEL_NB_POLY + j);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset);
+
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
 			}
         }
     }
+
+    position.insert(position.end(), positionCube.begin(), positionCube.end());
+    normal.insert(normal.end(), normalCube.begin(), normalCube.end());
+    color.insert(color.end(), colorCube.begin(), colorCube.end());
+    uv.insert(uv.end(), uvCube.begin(), uvCube.end());
 
 	_tunnelObj = glhf::GLObject(_prog, position.size(), indices.size(), indices, position, color, normal, uv);
 	_tunnelObj.initVao();
@@ -118,7 +182,10 @@ float TunnelSection::getRadius() {
 
 bool TunnelSection::isHole(float angle, float z) {
 	int posZ = ((int) ((z - _posStartZ) / _length * TUNNEL_NB_POINT_Z)) % TUNNEL_NB_POINT_Z;
-	int posAngle = (((int) std::abs(std::floor(angle / (M_PI * 2) * TUNNEL_NB_POLY)) % TUNNEL_NB_POLY));
+	int posAngle = (((int) std::floor(angle / (M_PI * 2) * TUNNEL_NB_POLY)) % TUNNEL_NB_POLY);
+
+	if (posAngle < 0)
+		posAngle += TUNNEL_NB_POLY;
 
 	return ! _matrix[posZ][posAngle];
 }

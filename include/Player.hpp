@@ -22,6 +22,7 @@ public:
 	float getRadius();
 	float getSpeed();
 	float getAngle();
+	void drawText();
 
 private:
 	glm::vec3 _pos;
@@ -30,6 +31,7 @@ private:
 	float _angleSpeed = 0;
 	float _radius = 0.05;
 	glhf::GLObject _obj;
+	float _score = 0;
 };
 
 #endif
