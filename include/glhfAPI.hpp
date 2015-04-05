@@ -15,6 +15,14 @@
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>     // Post processing flags
 
+// glm: matrix and vectors
+// to declare before including glm.hpp, to use the swizzle operators
+#define GLM_SWIZZLE
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/norm.hpp>
+
 
 namespace glhf {
 
@@ -151,7 +159,9 @@ namespace glhf {
 	
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
-				glBindVertexArray(0);          
+				glBindVertexArray(0);
+
+				mwId = glGetUniformLocation(prog.getId(), "modelWorldMatrix");
 			}
 
 			void draw(){
@@ -159,6 +169,7 @@ namespace glhf {
 				glBindVertexArray(vao);
 				if (textureId) 
 					glBindTexture(GL_TEXTURE_2D, textureId);
+				glUniformMatrix4fv(mwId, 1, GL_FALSE, glm::value_ptr(modelWorldMatrix));
 				glDrawElements(mode, indexCount, GL_UNSIGNED_INT, 0);
 				if (textureId) 
 					glDisable(GL_TEXTURE_2D);
@@ -224,18 +235,30 @@ namespace glhf {
 				setAttributes(position.size() / 3, indices.size(), indices, position, color, normal, uv);
 			}
 
-			void scale(float factor) {
-				for (int i = 0; i < position.size(); i++) {
-					position.at(i) = position.at(i) * factor;
-				}
-
-				if (_wasInit) {
-					glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-					glBufferData(GL_ARRAY_BUFFER, position.size() * sizeof(float), position.data(), GL_STATIC_DRAW);
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
-				}
+			void translate (float x, float y, float z) {
+				//displayMat4(modelWorldMatrix);
+				modelWorldMatrix[3][0] += x;
+				modelWorldMatrix[3][1] += y;
+				modelWorldMatrix[3][2] += z;
 			}
 
+			void setTranslation (float x, float y, float z){
+				modelWorldMatrix[3][0] = x;
+				modelWorldMatrix[3][1] = y;
+				modelWorldMatrix[3][2] = z;
+			}
+
+			void rotate (float angle, float x, float y, float z) {
+				modelWorldMatrix = glm::rotate(modelWorldMatrix, angle , glm::vec3(x, y, z));
+			}
+
+			void scale (float x, float y, float z) {
+				modelWorldMatrix = glm::scale(modelWorldMatrix, glm::vec3(x, y, z));
+			}
+
+			void scale (float factor) {
+				modelWorldMatrix = glm::scale(modelWorldMatrix, glm::vec3(factor, factor, factor));
+			}
 
 		private:
 			GLuint textureId = 0;
@@ -258,6 +281,9 @@ namespace glhf {
 			glhf::Program prog;
 
 			bool _wasInit;
+
+			glm::mat4 modelWorldMatrix;
+			GLint mwId;
 	};
 
 }

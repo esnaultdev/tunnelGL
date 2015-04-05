@@ -15,7 +15,7 @@ Player::Player(glhf::Program prog) {
 	_obj.setProgram(prog);
 	_obj.load("cube.obj");
 	_obj.initVao();
-	_obj.scale(0.5);
+	_obj.scale(_radius / 0.5);
 }
 
 Player::~Player() {
@@ -28,7 +28,8 @@ void Player::update(double dt, float radiusTunnel) {
 		_angleSpeed += dt/8;
 		if (_angleSpeed < -ANGLESPEED_MAX)
 			_angleSpeed = -ANGLESPEED_MAX;
-	} else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS ) { //right	
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS ) { //right	
 		_angleSpeed -= dt/8;
 		if (_angleSpeed > ANGLESPEED_MAX)
 			_angleSpeed = ANGLESPEED_MAX;
@@ -41,10 +42,12 @@ void Player::update(double dt, float radiusTunnel) {
 	}
 
 	_angle += _angleSpeed;
+	_obj.rotate(_angleSpeed, 0, 0, 1);
 
 	_pos.x = cos(_angle) * (radiusTunnel - _radius);
 	_pos.y = sin(_angle) * (radiusTunnel - _radius);
 	_pos.z += _speed.z;
+	_obj.setTranslation(_pos.x, _pos.y, _pos.z);
 
 	//std::cout << _pos.x << " " << _pos.y << " " << _pos.z << 
 	//	" Speed:" << _angleSpeed << " " << _speed.z << std::endl;;

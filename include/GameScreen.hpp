@@ -27,7 +27,7 @@ private:
 	Player _player;
 	Camera _camera;
 	Tunnel _tunnel;
-	float _lightdirnID;
+	GLint _lightdirnID;
 };
 
 #endif
