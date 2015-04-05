@@ -110,82 +110,85 @@ void TunnelSection::makeSection(){
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 			} else if (_matrix[i][j] == OBSTACLE) {
+				double xx,yy,zz;
+				
+				for (int i = 0; i < 2; ++i) {
+					xx = glm::cos(theta) * _radius/2;
+					yy = glm::sin(theta) * _radius/2;
+					zz = sideLength * (i+1) + _posStartZ;
 
-				double xx = glm::cos(theta) * _radius/2;
-				double yy = glm::sin(theta) * _radius/2;
-				double zz = sideLength * (i+1) + _posStartZ;
+					positionCube.push_back(xx);
+					positionCube.push_back(yy);
+					positionCube.push_back(z);
 
-				positionCube.push_back(xx);
-				positionCube.push_back(yy);
-				positionCube.push_back(z);
+					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+					colorCube.push_back(1);//std::abs(cos(colorAlea)));
+					colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
-				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(1);//std::abs(cos(colorAlea)));
-				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					normalCube.push_back(0);
+					normalCube.push_back(0);
+					normalCube.push_back(-1);
 
-				normalCube.push_back(0);
-				normalCube.push_back(0);
-				normalCube.push_back(-1);
+					uvCube.push_back((i+1) % 2);
+					uvCube.push_back(j % 2);
 
-				uvCube.push_back((i+1) % 2);
-				uvCube.push_back(j % 2);
+					offset++;
 
-				offset++;
+					positionCube.push_back(xx);
+					positionCube.push_back(yy);
+					positionCube.push_back(zz);
 
-				positionCube.push_back(xx);
-				positionCube.push_back(yy);
-				positionCube.push_back(zz);
+					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+					colorCube.push_back(1);//std::abs(cos(colorAlea)));
+					colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
-				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(1);//std::abs(cos(colorAlea)));
-				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					normalCube.push_back(0);
+					normalCube.push_back(0);
+					normalCube.push_back(-1);
 
-				normalCube.push_back(0);
-				normalCube.push_back(0);
-				normalCube.push_back(-1);
+					uvCube.push_back(i % 2);
+					uvCube.push_back(j % 2);
 
-				uvCube.push_back(i % 2);
-				uvCube.push_back(j % 2);
+					offset++;
 
-				offset++;
+					theta = (j+1) * angleStep;
+					xx = glm::cos(theta) * _radius/2;
+					yy = glm::sin(theta) * _radius/2;
 
-				theta = (j+1) * angleStep;
-				xx = glm::cos(theta) * _radius/2;
-				yy = glm::sin(theta) * _radius/2;
+					positionCube.push_back(xx);
+					positionCube.push_back(yy);
+					positionCube.push_back(z);
 
-				positionCube.push_back(xx);
-				positionCube.push_back(yy);
-				positionCube.push_back(z);
+					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+					colorCube.push_back(1);//std::abs(cos(colorAlea)));
+					colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
-				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(1);//std::abs(cos(colorAlea)));
-				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					normalCube.push_back(0);
+					normalCube.push_back(0);
+					normalCube.push_back(-1);
 
-				normalCube.push_back(0);
-				normalCube.push_back(0);
-				normalCube.push_back(-1);
+					uvCube.push_back((i+1) % 2);
+					uvCube.push_back((j+1) % 2);
 
-				uvCube.push_back((i+1) % 2);
-				uvCube.push_back((j+1) % 2);
+					offset ++;
 
-				offset ++;
+					positionCube.push_back(xx);
+					positionCube.push_back(yy);
+					positionCube.push_back(zz);
 
-				positionCube.push_back(xx);
-				positionCube.push_back(yy);
-				positionCube.push_back(zz);
+					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+					colorCube.push_back(1);//std::abs(cos(colorAlea)));
+					colorCube.push_back(1);//std::abs(sin(colorAlea)));
 
-				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-				colorCube.push_back(1);//std::abs(cos(colorAlea)));
-				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					normalCube.push_back(0);
+					normalCube.push_back(0);
+					normalCube.push_back(-1);
 
-				normalCube.push_back(0);
-				normalCube.push_back(0);
-				normalCube.push_back(-1);
+					uvCube.push_back(i % 2);
+					uvCube.push_back((j+1) % 2);
 
-				uvCube.push_back(i % 2);
-				uvCube.push_back((j+1) % 2);
-
-				offset++;
+					offset++;
+				}
 
 				//front
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
@@ -215,22 +218,20 @@ void TunnelSection::makeSection(){
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 
 				//left
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 7);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 2);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 6);
 
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 7);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 
 				//right
 				indices.push_back(i * TUNNEL_NB_POLY + j);
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 5);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 4);
 				
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 0);
-
-				
-				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 5);
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 			}
