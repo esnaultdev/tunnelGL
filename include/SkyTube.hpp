@@ -7,7 +7,7 @@
 #include <cmath>
 #include "glhfAPI.hpp"
 
-#define SKYTUBE_NB_POINT_Z 40
+#define SKYTUBE_NB_POINT_Z 18
 #define SKYTUBE_NB_POLY 12
 #define SKYTUBE_RADIUS 5
 

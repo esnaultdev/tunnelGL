@@ -21,8 +21,8 @@ SkyTube::SkyTube(glhf::Program prog, glm::vec3 pos){
         for(int j = 0; j < SKYTUBE_NB_POLY; j++) {
         	double theta = j * angleStep;
 
-        	double x = glm::cos(theta) * SKYTUBE_RADIUS;
-        	double y = glm::sin(theta) * SKYTUBE_RADIUS;
+        	double x = glm::cos(theta) * SKYTUBE_RADIUS * (1 - (float)i / SKYTUBE_NB_POINT_Z);
+        	double y = glm::sin(theta) * SKYTUBE_RADIUS * (1 - (float)i / SKYTUBE_NB_POINT_Z);
         	double z = sideLength * i;
         	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
 
