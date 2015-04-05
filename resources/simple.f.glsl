@@ -26,8 +26,8 @@ void main() {
 
     //fragColor = vec4( color * ambient + lambert, 1);
     fragColor = texture(colormap, fragUv) * vec4(color, 1);
-    fragColor*= vec4(ambient, 1);
-    fragColor+= vec4(lambert, 1);
+    //fragColor*= vec4(ambient, 1);
+    //fragColor+= vec4(lambert, 1);
     // FOG
     //fragColor *= smoothstep(25, 20, dist);
 }
