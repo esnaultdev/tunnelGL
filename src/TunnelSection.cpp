@@ -7,6 +7,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
+#define OBSTACLE 2
+#define HOLE 1
+#define SAFE 0
+
 TunnelSection::TunnelSection() {
 
 }
@@ -36,11 +40,11 @@ void TunnelSection::generateMatrix(){
     	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
     		int random = rand()%100 +1;
     		if (random > 98) {
-    			_matrix[i][j] = 2; // obstacle
+    			_matrix[i][j] = OBSTACLE; // obstacle
     		} else if (random > 96) {
-    			_matrix[i][j] = 0; // hole
+    			_matrix[i][j] = HOLE; // hole
     		} else {
-    			_matrix[i][j] = 1; // safe
+    			_matrix[i][j] = SAFE; // safe
     		}
     	}
     }
@@ -64,7 +68,7 @@ void TunnelSection::makeSection(){
     _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
 
 
-    int offset = -2;
+    int offset = -4;
 
     for(int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
         for(int j = 0; j < TUNNEL_NB_POLY; j++) {
@@ -96,16 +100,7 @@ void TunnelSection::makeSection(){
 			uv.push_back(i % 2);
 			uv.push_back(j % 2);
 
-			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] == 1) {
-				// Outside
-				indices.push_back(i * TUNNEL_NB_POLY + j);
-				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
-
-				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
-				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-
+			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] == SAFE) {
 				//Inside
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(i * TUNNEL_NB_POLY + j);
@@ -114,10 +109,11 @@ void TunnelSection::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-			} else if (_matrix[i][j] == 2) {
+			} else if (_matrix[i][j] == OBSTACLE) {
 
 				double xx = glm::cos(theta) * _radius/2;
 				double yy = glm::sin(theta) * _radius/2;
+				double zz = sideLength * (i+1) + _posStartZ;
 
 				positionCube.push_back(xx);
 				positionCube.push_back(yy);
@@ -132,6 +128,23 @@ void TunnelSection::makeSection(){
 				normalCube.push_back(-1);
 
 				uvCube.push_back((i+1) % 2);
+				uvCube.push_back(j % 2);
+
+				offset++;
+
+				positionCube.push_back(xx);
+				positionCube.push_back(yy);
+				positionCube.push_back(zz);
+
+				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(1);//std::abs(cos(colorAlea)));
+				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+
+				normalCube.push_back(0);
+				normalCube.push_back(0);
+				normalCube.push_back(-1);
+
+				uvCube.push_back(i % 2);
 				uvCube.push_back(j % 2);
 
 				offset++;
@@ -156,15 +169,70 @@ void TunnelSection::makeSection(){
 				uvCube.push_back((j+1) % 2);
 
 				offset ++;
-	
 
+				positionCube.push_back(xx);
+				positionCube.push_back(yy);
+				positionCube.push_back(zz);
+
+				colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
+				colorCube.push_back(1);//std::abs(cos(colorAlea)));
+				colorCube.push_back(1);//std::abs(sin(colorAlea)));
+
+				normalCube.push_back(0);
+				normalCube.push_back(0);
+				normalCube.push_back(-1);
+
+				uvCube.push_back(i % 2);
+				uvCube.push_back((j+1) % 2);
+
+				offset++;
+
+				//front
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset);
 
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 2);
+
+				//up
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset);
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 2);
+
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 2);
+
+				//back
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+
+				//left
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 2);
+
+				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
+
+				//right
+				indices.push_back(i * TUNNEL_NB_POLY + j);
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 0);
+
+				
+				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 1);
+				indices.push_back(i * TUNNEL_NB_POLY + j);
+				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 			}
         }
     }
@@ -194,5 +262,5 @@ bool TunnelSection::isHole(float angle, float z) {
 	if (posAngle < 0)
 		posAngle += TUNNEL_NB_POLY;
 
-	return ! _matrix[posZ][posAngle];
+	return _matrix[posZ][posAngle] != SAFE;
 }
