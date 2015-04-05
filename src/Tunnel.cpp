@@ -1,7 +1,8 @@
 #include "Tunnel.hpp"
+#include <cstdlib>
 
 Tunnel::Tunnel() {
-
+	srand(time(NULL));
 }
 
 Tunnel::Tunnel(glhf::Program prog, Player *player) {

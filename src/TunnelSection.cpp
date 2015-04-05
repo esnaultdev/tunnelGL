@@ -34,9 +34,7 @@ void TunnelSection::draw(){
 }
 
 void TunnelSection::generateMatrix(){
-	srand(time(NULL));
-
-    for (int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
+    for (int i = 0; i < TUNNEL_NB_POINT_Z-1; i++) {
     	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
     		int random = rand()%100 +1;
     		if (random > 98) {
@@ -49,6 +47,9 @@ void TunnelSection::generateMatrix(){
     	}
     }
 
+    for (int i = 0; i < TUNNEL_NB_POLY; ++i) {
+    	_matrix[TUNNEL_NB_POINT_Z-1][i] = SAFE;
+    }
 }
 
 void TunnelSection::makeSection(){
@@ -68,10 +69,10 @@ void TunnelSection::makeSection(){
     _length = sideLength * (TUNNEL_NB_POINT_Z - 1);
 
 
-    int offset = -4;
+    int offset = -8;
 
-    for(int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
-        for(int j = 0; j < TUNNEL_NB_POLY; j++) {
+    for(int i = 0; i < TUNNEL_NB_POINT_Z; ++i) {
+        for(int j = 0; j < TUNNEL_NB_POLY; ++j) {
         	double theta = j * angleStep;
 
         	double x = glm::cos(theta) * _radius;
@@ -109,10 +110,11 @@ void TunnelSection::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-			} else if (_matrix[i][j] == OBSTACLE) {
+			} else if (_matrix[i][j] == OBSTACLE && i != TUNNEL_NB_POINT_Z - 1) {
 				double xx,yy,zz;
 				
-				for (int i = 0; i < 2; ++i) {
+				for (int k = 0; k < 2; ++k) {
+					theta = j * angleStep;
 					xx = glm::cos(theta) * _radius/2;
 					yy = glm::sin(theta) * _radius/2;
 					zz = sideLength * (i+1) + _posStartZ;
@@ -129,8 +131,8 @@ void TunnelSection::makeSection(){
 					normalCube.push_back(0);
 					normalCube.push_back(-1);
 
-					uvCube.push_back((i+1) % 2);
-					uvCube.push_back(j % 2);
+					uvCube.push_back((i+1+k) % 2);
+					uvCube.push_back((j+k) % 2);
 
 					offset++;
 
@@ -146,8 +148,8 @@ void TunnelSection::makeSection(){
 					normalCube.push_back(0);
 					normalCube.push_back(-1);
 
-					uvCube.push_back(i % 2);
-					uvCube.push_back(j % 2);
+					uvCube.push_back((i+k) % 2);
+					uvCube.push_back((j+k) % 2);
 
 					offset++;
 
@@ -167,8 +169,8 @@ void TunnelSection::makeSection(){
 					normalCube.push_back(0);
 					normalCube.push_back(-1);
 
-					uvCube.push_back((i+1) % 2);
-					uvCube.push_back((j+1) % 2);
+					uvCube.push_back((i+1+k) % 2);
+					uvCube.push_back((j+1+k) % 2);
 
 					offset ++;
 
@@ -184,8 +186,8 @@ void TunnelSection::makeSection(){
 					normalCube.push_back(0);
 					normalCube.push_back(-1);
 
-					uvCube.push_back(i % 2);
-					uvCube.push_back((j+1) % 2);
+					uvCube.push_back((i+k) % 2);
+					uvCube.push_back((j+1+k) % 2);
 
 					offset++;
 				}
@@ -216,16 +218,16 @@ void TunnelSection::makeSection(){
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 3);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-
+				
 				//left
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 7);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 6);
 
+				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 7);
-				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-
+				
 				//right
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back(TUNNEL_NB_POINT_Z * TUNNEL_NB_POLY + offset + 5);
