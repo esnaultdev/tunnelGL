@@ -34,7 +34,14 @@ void TunnelSection::generateMatrix(){
 
     for (int i = 0; i < TUNNEL_NB_POINT_Z; i++) {
     	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
-    		_matrix[i][j] = (rand()%100 +1 > 99) ? 0 : 1 ;
+    		int random = rand()%100 +1;
+    		if (random > 98) {
+    			_matrix[i][j] = 2; // obstacle
+    		} else if (random > 96) {
+    			_matrix[i][j] = 0; // hole
+    		} else {
+    			_matrix[i][j] = 1; // safe
+    		}
     	}
     }
 
@@ -89,7 +96,7 @@ void TunnelSection::makeSection(){
 			uv.push_back(i % 2);
 			uv.push_back(j % 2);
 
-			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] != 0) {
+			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] == 1) {
 				// Outside
 				indices.push_back(i * TUNNEL_NB_POLY + j);
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
@@ -107,7 +114,7 @@ void TunnelSection::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-			} else if (_matrix[i][j] == 0) {
+			} else if (_matrix[i][j] == 2) {
 
 				double xx = glm::cos(theta) * _radius/2;
 				double yy = glm::sin(theta) * _radius/2;
