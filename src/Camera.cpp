@@ -37,7 +37,7 @@ void Camera::update(double dt) {
 			_timeMove = DURATION_BOOST_ANIM;
 		move(dt);
 
-		posCamera = glm::vec3(posCamera.x + ((std::rand() % 3 + 1 - 3/2.f)/200.f), posCamera.y + ((std::rand() % 3 + 1 - 3/2.f)/200.f), posCamera.z);
+		posCamera = glm::vec3(posCamera.x + ((std::rand() % 3 + 1 - 3/2.f)/400.f), posCamera.y + ((std::rand() % 3 + 1 - 3/2.f)/400.f), posCamera.z);
 	} else {
 		_timeMove -= dt;
 		if (_timeMove < 0)
