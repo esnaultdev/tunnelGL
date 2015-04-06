@@ -19,16 +19,16 @@ Camera::Camera(glhf::Program prog, Player *player) {
 
 	_offsetCameraNormal.y = -player->getRadius()*2;
 	_offsetCameraNormal.z = 0;
-	_offsetCameraBoost.y = -player->getRadius();
-	_offsetCameraBoost.z = player->getRadius()*8;
+	_offsetCameraBoost.y = -player->getRadius()*2;
+	_offsetCameraBoost.z = player->getRadius()*10;
 }
 
 void Camera::update(double dt) {
 	glm::vec3 posPlayer = _player->getPos();
 	glm::vec3 posCamera = posPlayer;
 
-	_offsetCameraNormal.y = -_player->getRadius()*4+std::min(0.5f * _player->getSpeed(), _player->getRadius()*2.f);
-	_offsetCameraNormal.z = 0 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*8.f);
+	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.5f);
+	_offsetCameraNormal.z = 0 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*10.f);
 
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
