@@ -60,7 +60,7 @@ void EndScreen::draw(){
 	printText2D(strs.str().c_str(), 50, 550, 30);
 
 	std::ostringstream strs4;
-	strs << "Speed: " << _speed;
+	strs4 << "Speed: " << _speed;
 	printText2D(strs4.str().c_str(), 50, 350, 30);
 
 	std::ostringstream strs2;

@@ -28,14 +28,10 @@ Player::~Player() {
 void Player::update(double dt, float radiusTunnel) {
 	//Speed without friction on Z, but not on x and y
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left
-		_angleSpeed += dt/8;
-		if (_angleSpeed < -ANGLESPEED_MAX)
-			_angleSpeed = -ANGLESPEED_MAX;
+		_angleSpeed += dt/8 * _speed.z *1000/80;
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ) { //right	
-		_angleSpeed -= dt/8;
-		if (_angleSpeed > ANGLESPEED_MAX)
-			_angleSpeed = ANGLESPEED_MAX;
+		_angleSpeed -= dt/8 * _speed.z *1000/80;
 	}
 	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) { //boost
@@ -53,8 +49,8 @@ void Player::update(double dt, float radiusTunnel) {
 	_pos.z += _speed.z;
 	_obj.setTranslation(_pos.x, _pos.y, _pos.z);
 
-	//std::cout << _pos.x << " " << _pos.y << " " << _pos.z << 
-	//	" Speed:" << _angleSpeed << " " << _speed.z << std::endl;;
+	std::cout << _pos.x << " " << _pos.y << " " << _pos.z << 
+		" Speed:" << _angleSpeed << " " << _speed.z << std::endl;;
 
 	_angleSpeed *= FRICTION;
 }

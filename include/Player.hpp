@@ -8,7 +8,6 @@
 #include "glhfAPI.hpp"
 
 #define FRICTION 0.95
-#define ANGLESPEED_MAX M_PI/15
 
 class Player {
 
