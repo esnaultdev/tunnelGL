@@ -49,8 +49,8 @@ void Player::update(double dt, float radiusTunnel) {
 	_pos.z += _speed.z;
 	_obj.setTranslation(_pos.x, _pos.y, _pos.z);
 
-	std::cout << _pos.x << " " << _pos.y << " " << _pos.z << 
-		" Speed:" << _angleSpeed << " " << _speed.z << std::endl;;
+	//std::cout << _pos.x << " " << _pos.y << " " << _pos.z << 
+	//	" Speed:" << _angleSpeed << " " << _speed.z << std::endl;;
 
 	_angleSpeed *= FRICTION;
 }
