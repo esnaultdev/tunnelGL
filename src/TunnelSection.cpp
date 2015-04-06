@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <fstream>
+#include <vector>
+
 #include "TunnelSection.hpp"
 
 #include <glm/glm.hpp>
@@ -10,6 +13,11 @@
 #define OBSTACLE 2
 #define HOLE 1
 #define SAFE 0
+
+
+std::map<int, TunnelSection::SectionMatrix> TunnelSection::_matrices;
+std::multimap<int, int> TunnelSection::_difficultyIds;
+int TunnelSection::_maxDifficulty = 0;
 
 TunnelSection::TunnelSection() {
 
@@ -21,7 +29,6 @@ TunnelSection::TunnelSection(glhf::Program prog){
 
 void TunnelSection::init(float posStartZ){
 	_posStartZ = posStartZ;
-	generateMatrix();
 	makeSection();
 }
 
@@ -33,23 +40,83 @@ void TunnelSection::draw(){
 	_tunnelObj.draw();
 }
 
-void TunnelSection::generateMatrix(){
-    for (int i = 0; i < TUNNEL_NB_POINT_Z-1; i++) {
-    	for (int j = 0; j < TUNNEL_NB_POLY; j++) {
-    		int random = rand()%100 +1;
-    		if (random > 98) {
-    			_matrix[i][j] = OBSTACLE; // obstacle
-    		} else if (random > 96) {
-    			_matrix[i][j] = HOLE; // hole
-    		} else {
-    			_matrix[i][j] = SAFE; // safe
-    		}
-    	}
-    }
+void TunnelSection::loadNew(const int difficulty){
+	int newDifficulty = difficulty;
+	if (difficulty > _maxDifficulty) {
+		newDifficulty = _maxDifficulty;
+	}
 
-    for (int i = 0; i < TUNNEL_NB_POLY; ++i) {
-    	_matrix[TUNNEL_NB_POINT_Z-1][i] = SAFE;
+	int matrixNumber = _difficultyIds.count(newDifficulty);
+	int randId = rand() % matrixNumber;
+
+	std::pair<std::multimap<int, int>::iterator, std::multimap<int, int>::iterator> diffIt;
+    diffIt = _difficultyIds.equal_range(newDifficulty);
+    std::multimap<int, int>::iterator it = diffIt.first;
+    for (int i = 0; i < randId; i++) {
+    	it++;
     }
+    _matrixId = it->second;
+    std::cout << "Loaded new matrix #" << _matrixId << std::endl;
+}
+
+void TunnelSection::loadNext(const int next){
+	_matrixId = next;
+	std::cout << "Loaded next matrix #" << _matrixId << std::endl;
+}
+
+bool TunnelSection::hasNext(){
+	return (_matrices[_matrixId].next >= 0);
+}
+
+int TunnelSection::getNextId(){
+	return _matrices[_matrixId].next;
+}
+
+void TunnelSection::loadMatricesFile(){
+	_maxDifficulty = 0;
+	std::ifstream ifs (MATRICES_FILE, std::ifstream::in);
+	SectionMatrix m;
+	int nbMatrices;
+
+	ifs >> nbMatrices;
+	int id;
+
+	for (int i = 0; i < nbMatrices; i++) {
+    	ifs >> id;
+    	m.id = id;
+    	ifs >> m.difficulty;
+    	ifs >> m.next;
+    	//std::cout << id << std::endl;
+    	//std::cout << m.difficulty << std::endl;
+    	//std::cout << m.next << std::endl;
+    	for (int i = 0; i < TUNNEL_NB_POINT_Z - 1; i++) {
+    		for (int j = 0; j < TUNNEL_NB_POLY; j++) {
+    			ifs >> m.matrix[i][j];
+    			//std::cout << m.matrix[i][j] << " ";
+    		}
+    		//std::cout << std::endl;
+    	}
+    	for (int i = 0; i < TUNNEL_NB_POLY; ++i) {
+    		m.matrix[TUNNEL_NB_POINT_Z-1][i] = SAFE;
+    	}
+    	_matrices[id] = m;
+	}
+
+	ifs.close();
+
+	// Generate difficulty multimap
+	std::map<int, SectionMatrix>::iterator it;
+	for (it = _matrices.begin(); it != _matrices.end(); it++){
+		int difficulty = it->second.difficulty;
+		if (difficulty >= 0) {
+			if (difficulty > _maxDifficulty) {
+				_maxDifficulty = difficulty;
+			}
+			_difficultyIds.insert(std::pair<int, int>(difficulty, it->first));
+		}
+	}
+
+	std::cout << "Loaded " << _matrices.size() << " matrices from " << MATRICES_FILE << std::endl;
 }
 
 void TunnelSection::makeSection(){
@@ -101,7 +168,7 @@ void TunnelSection::makeSection(){
 			uv.push_back(i % 2);
 			uv.push_back(j % 2);
 
-			if (i != TUNNEL_NB_POINT_Z - 1 && _matrix[i][j] == SAFE) {
+			if (i != TUNNEL_NB_POINT_Z - 1 && _matrices[_matrixId].matrix[i][j] == SAFE) {
 				//Inside
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back(i * TUNNEL_NB_POLY + j);
@@ -110,7 +177,7 @@ void TunnelSection::makeSection(){
 				indices.push_back(i * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
 				indices.push_back((i+1) * TUNNEL_NB_POLY + j);
 				indices.push_back((i+1) * TUNNEL_NB_POLY + ((j+1) % TUNNEL_NB_POLY));
-			} else if (_matrix[i][j] == OBSTACLE && i != TUNNEL_NB_POINT_Z - 1) {
+			} else if (_matrices[_matrixId].matrix[i][j] == OBSTACLE && i != TUNNEL_NB_POINT_Z - 1) {
 				double xx,yy,zz;
 				
 				for (int k = 0; k < 2; ++k) {
@@ -265,5 +332,5 @@ bool TunnelSection::isHole(float angle, float z) {
 	if (posAngle < 0)
 		posAngle += TUNNEL_NB_POLY;
 
-	return _matrix[posZ][posAngle] != SAFE;
+	return _matrices[_matrixId].matrix[posZ][posAngle] != SAFE;
 }
