@@ -70,7 +70,7 @@ void Player::drawText() {
 	printText2D(strs.str().c_str(), 400, 30, 50);
 
 	std::ostringstream strs2;
-	strs2 << std::floor(getSpeed() * 1000) << "km_h";
+	strs2 << std::floor(getSpeed() * 1000) << "km/h";
 	printText2D(strs2.str().c_str(), 30, 750, 40);
 }
 

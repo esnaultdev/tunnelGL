@@ -17,7 +17,7 @@ unsigned int Text2DShaderID;
 unsigned int Text2DUniformID;
 unsigned int Text2Dvao;
 
-int NB_CHAR_W = 0;
+int NB_CHAR_W = 16;
 
 void initText2D(const char * texturePath, int nbCharW){
 	Text2DTextureID = loadDDS(texturePath);
@@ -52,7 +52,7 @@ void printText2D(const char * text, int x, int y, int size){
 		vertices.push_back(vertex_up_right);
 		vertices.push_back(vertex_down_left);
 
-		char character = text[i] - '0';
+		char character = text[i];
 		float uv_x = (character % NB_CHAR_W) / ((float) NB_CHAR_W);
 		float uv_y = (character / NB_CHAR_W) / ((float) NB_CHAR_W);
 
