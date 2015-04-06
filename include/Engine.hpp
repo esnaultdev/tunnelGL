@@ -2,6 +2,7 @@
 #define _ENGINE
 
 #include "Screen.hpp"
+#include "glhfAPI.hpp"
 
 class Engine {
 

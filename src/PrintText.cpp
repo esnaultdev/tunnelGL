@@ -114,3 +114,8 @@ void cleanupText2D(){
 
 	glDeleteProgram(Text2DShaderID);
 }
+
+void getTextProgId(GLuint *idShader, GLuint *idTexture) {
+	*idShader = Text2DShaderID;
+	*idTexture = Text2DUniformID;
+}

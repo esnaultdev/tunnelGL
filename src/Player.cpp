@@ -27,12 +27,12 @@ Player::~Player() {
 
 void Player::update(double dt, float radiusTunnel) {
 	//Speed without friction on Z, but not on x and y
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS ) { //left
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left
 		_angleSpeed += dt/8;
 		if (_angleSpeed < -ANGLESPEED_MAX)
 			_angleSpeed = -ANGLESPEED_MAX;
 	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS ) { //right	
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ) { //right	
 		_angleSpeed -= dt/8;
 		if (_angleSpeed > ANGLESPEED_MAX)
 			_angleSpeed = ANGLESPEED_MAX;
@@ -88,4 +88,8 @@ float Player::getSpeed() {
 
 float Player::getAngle() {
 	return _angle;
+}
+
+int Player::getScore() {
+	return (int) _score;
 }

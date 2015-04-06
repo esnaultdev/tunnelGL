@@ -1,10 +1,10 @@
 
-#include "GameScreen.hpp"
+#include "MenuScreen.hpp"
 #include "Engine.hpp"
 #include <iostream>
 
 Engine::Engine(glhf::Program prog){
-	_currentScreen = new GameScreen(prog);
+	_currentScreen = new MenuScreen(prog);
 	_currentScreen->init();
 	_prog = prog;
 }

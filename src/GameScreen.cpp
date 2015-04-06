@@ -1,13 +1,15 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include "EndScreen.hpp"
 #include "GameScreen.hpp"
-
+#include "Engine.hpp"
 #include "Box.hpp"
 #include "Sphere.hpp"
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
 
+extern Engine* engine;
 extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
@@ -24,6 +26,7 @@ void GameScreen::init(){
 	std::cout << b->collideWith(s) << std::endl;
 	initText2D("../resources/font.DDS", 16);
 	
+	_time = 0;
 	_player = Player(_prog);
 	_tunnel = Tunnel(_prog, &_player);
 	_camera = Camera(_prog, &_player);
@@ -38,8 +41,9 @@ void GameScreen::update(double dt) {
 
 	glm::vec3 posPlayer = _player.getPos();
 
-	if (_tunnel.update(dt))
-		init();
+	if (_tunnel.update(dt)) {
+		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) _player.getSpeed()));
+	}
 
 	_camera.update(dt);
 	_skytube.setPos(posPlayer);

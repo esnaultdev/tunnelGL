@@ -53,7 +53,7 @@ void TunnelSection::generateMatrix(){
 }
 
 void TunnelSection::makeSection(){
-	std::vector<unsigned int> indices; 	
+	std::vector<unsigned int> indices;
 	std::vector<float> position;
 	std::vector<float> color;
 	std::vector<float> normal;

@@ -23,6 +23,7 @@ public:
 	float getSpeed();
 	float getAngle();
 	void drawText();
+	int getScore();
 
 private:
 	glm::vec3 _pos;
