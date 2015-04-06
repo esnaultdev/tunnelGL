@@ -15,9 +15,10 @@ Player::Player(glhf::Program prog) {
 	_pos = glm::vec3(0, 0, 0);
 	_speed = glm::vec3(0, 0, 0.01);
 	_obj.setProgram(prog);
-	_obj.load("cube.obj");
+	_obj.load("vaisseau.obj");
 	_obj.initVao();
-	_obj.scale(_radius * 2 / 0.5);
+	_obj.setTexture("vaisseau.tga", GL_REPEAT, GL_REPEAT, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, 10.0);
+	_obj.scale(_radius * 2 / 0.65);
 }
 
 Player::~Player() {
