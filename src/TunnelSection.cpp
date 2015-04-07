@@ -57,6 +57,13 @@ void TunnelSection::loadNew(const int difficulty){
     }
     _matrixId = it->second;
     std::cout << "Loaded new matrix #" << _matrixId << std::endl;
+    /*
+    if (difficulty == 0) {
+    	_matrixId = 0;
+    } else {
+    	_matrixId = 40;
+    }
+    */
 }
 
 void TunnelSection::loadNext(const int next){

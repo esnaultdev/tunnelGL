@@ -13,7 +13,6 @@ extern Engine* engine;
 extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
-	std::cout << "===== HEY =====" << std::endl;
 	_prog = prog;
 	SoundEngine = irrklang::createIrrKlangDevice();
 	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
