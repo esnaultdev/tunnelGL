@@ -50,7 +50,7 @@ void Camera::update(double dt) {
 
 	glm::mat4 view = glm::lookAt(
 		posCamera,
-		posPlayer + glm::vec3(0,0,10),
+		posPlayer + glm::vec3(0, 0, 8),
 		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
 
 	glm::mat4 camera = _projection * view;
