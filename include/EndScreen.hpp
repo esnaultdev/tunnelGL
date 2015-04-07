@@ -4,12 +4,12 @@
 #include <GL/glew.h> 
 #include "glhfAPI.hpp"
 
-#include "Screen.hpp"
+#include "GameScreen.hpp"
 
 class EndScreen : public Screen {
 
 public:
-	EndScreen(glhf::Program prog, int time, int score, int speed);
+	EndScreen(glhf::Program prog, int time, int score, int speed, GameScreen *screen);
 	~EndScreen();
 	void init();
 	void update(double dt);
@@ -28,6 +28,7 @@ private:
 	int _time;
 	int _speed;
 	int _score;
+	GameScreen *_screen;
 };
 
 #endif

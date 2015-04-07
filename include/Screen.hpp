@@ -9,6 +9,7 @@ public:
 	virtual void init();
 	virtual void update(double dt);
 	virtual void draw();
+	virtual void onEnd();
 
 private:
 

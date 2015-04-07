@@ -23,7 +23,6 @@ GameScreen::GameScreen(glhf::Program prog){
 
 GameScreen::~GameScreen(){
 	cleanupText2D();
-	music->stop();
 	music->drop();
 	SoundEngine->drop();
 }
@@ -54,7 +53,7 @@ void GameScreen::update(double dt) {
 	glm::vec3 posPlayer = _player.getPos();
 
 	if (_tunnel.update(dt)) {
-		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000)));
+		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this));
 	}
 
 	_camera.update(dt);
@@ -89,4 +88,8 @@ void GameScreen::draw(){
 	else
 		strs3 << sec;
 	printText2D(strs3.str().c_str(), 800, 750, 50);
+}
+
+void GameScreen::onEnd() {
+	music->setIsPaused(true);
 }

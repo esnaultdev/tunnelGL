@@ -19,6 +19,7 @@ void Engine::update(double currentTime){
 	_prevTime = currentTime;
 
 	if (_nextScreen != 0) {
+		_currentScreen->onEnd();
 		_currentScreen = _nextScreen;
 		_nextScreen = 0;
 		_currentScreen->init();
