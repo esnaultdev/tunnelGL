@@ -25,6 +25,11 @@ Player::~Player() {
 	_obj.draw();
 }
 
+void Player::reset(){
+	_pos = glm::vec3(0, 0, 0);
+	_speed = glm::vec3(0, 0, 0.07);
+}
+
 void Player::update(double dt, float radiusTunnel) {
 	//Speed without friction on Z, but not on x and y
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left

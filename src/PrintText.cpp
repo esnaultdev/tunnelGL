@@ -79,6 +79,9 @@ void printText2D(const char * text, int x, int y, int size){
 	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
 	glUseProgram(Text2DShaderID);
+	glBindAttribLocation(Text2DShaderID, 0, "vertexPosition_screenspace");
+	glBindAttribLocation(Text2DShaderID, 1, "vertexUV");
+	glLinkProgram(Text2DShaderID);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Text2DTextureID);

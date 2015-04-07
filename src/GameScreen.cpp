@@ -4,8 +4,6 @@
 #include "EndScreen.hpp"
 #include "GameScreen.hpp"
 #include "Engine.hpp"
-#include "Box.hpp"
-#include "Sphere.hpp"
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
 
@@ -14,6 +12,10 @@ extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
 	_prog = prog;
+
+	_player = Player(_prog);
+		_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
+
 	SoundEngine = irrklang::createIrrKlangDevice();
 	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
 	music->setVolume(0.4);
@@ -27,16 +29,13 @@ GameScreen::~GameScreen(){
 }
 
 void GameScreen::init(){
-	Box *b = new Box(glm::vec3(0, 0, 0), glm::vec3(1, 1, 0), glm::vec3(0, 1, 1), glm::vec3(1, 0, 1));
-	Sphere *s = new Sphere(glm::vec3(-0.5, -0.5, 0), 1);
-	std::cout << b->collideWith(s) << std::endl;
 	initText2D("../resources/font.DDS", 16);
 	
 	_time = 0;
-	_player = Player(_prog);
+	
+	_player.reset();
 	_tunnel = Tunnel(_prog, &_player, SoundEngine);
 	_camera = Camera(_prog, &_player);
-	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
 	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
 	

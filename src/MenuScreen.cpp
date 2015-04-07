@@ -7,8 +7,6 @@
 
 #include "Engine.hpp"
 #include "GameScreen.hpp"
-#include "Box.hpp"
-#include "Sphere.hpp"
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
 

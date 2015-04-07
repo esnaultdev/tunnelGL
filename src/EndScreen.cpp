@@ -7,8 +7,6 @@
 
 #include "Engine.hpp"
 #include "GameScreen.hpp"
-#include "Box.hpp"
-#include "Sphere.hpp"
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
 
@@ -96,6 +94,9 @@ void EndScreen::makeResources() {
 	uv.push_back(glm::vec2(1, 1));
 
 	glUseProgram(_idProgram);
+	glBindAttribLocation(_idProgram, 0, "vertexPosition_screenspace");
+	glBindAttribLocation(_idProgram, 1, "vertexUV");
+	glLinkProgram(_idProgram);
 	glGenVertexArrays(1, &_vao);
 	glBindVertexArray(_vao);
 	glGenBuffers(1, &_vertexID);
