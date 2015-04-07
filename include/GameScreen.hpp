@@ -23,7 +23,7 @@ public:
 
 private:
 	glhf::Program _prog;
-
+	GLuint _lightAmbientID;
 	float _time = 0;
 	Player _player;
 	Camera _camera;

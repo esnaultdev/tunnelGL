@@ -32,6 +32,7 @@ void GameScreen::init(){
 	_camera = Camera(_prog, &_player);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
+	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
 }
 
 void GameScreen::update(double dt) {
@@ -48,6 +49,9 @@ void GameScreen::update(double dt) {
 	_camera.update(dt);
 	_skytube.setPos(posPlayer);
 
+	float speed = (_player.getSpeed() - 0.07)*7;
+	glm::vec3 ambient(1 - speed, 1 - speed, 1 - speed);
+	glUniform3f(_lightAmbientID, ambient.x, ambient.y, ambient.z);
 	glUniform3f(_posShipID, posPlayer.x, posPlayer.y, posPlayer.z);
 }
 

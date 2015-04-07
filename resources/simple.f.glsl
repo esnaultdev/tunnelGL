@@ -7,6 +7,7 @@ in vec4 vPosition;
 out vec4 fragColor;
 
 vec3 lightcolor = vec3(1, 1, 1);
+uniform vec3 colorReal;
 vec3 ambient = vec3(0.85, 0.85, 0.85);
 vec3 spotPower = vec3(0.5, 0.5, 0.5);
 
@@ -24,7 +25,9 @@ vec3 ComputeLightLambert(const in vec3 lightdirn, const in vec3 lightcolor, cons
 
 void main() {
     vec3 normal = normalize(fragNormal);
-    fragColor = texture(colormap, fragUv) * vec4(color, 1);
+    fragColor = vec4(color,1);
+
+    fragColor = texture(colormap, fragUv) * fragColor;
     fragColor*= vec4(ambient, 1);
 
     vec3 spotpos = vec3(0, 0, posShip.z);
