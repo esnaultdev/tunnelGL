@@ -31,7 +31,7 @@ void GameScreen::init(){
 	_tunnel = Tunnel(_prog, &_player);
 	_camera = Camera(_prog, &_player);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
-	_lightdirnID = glGetUniformLocation(_prog.getId(), "lightdirn");
+	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
 }
 
 void GameScreen::update(double dt) {
@@ -48,9 +48,7 @@ void GameScreen::update(double dt) {
 	_camera.update(dt);
 	_skytube.setPos(posPlayer);
 
-	glm::vec2 light(-posPlayer.x, -posPlayer.y);
-	light = glm::normalize(light);
-	glUniform3f(_lightdirnID, light.x, light.y, 1);
+	glUniform3f(_posShipID, posPlayer.x, posPlayer.y, posPlayer.z);
 }
 
 void GameScreen::draw(){

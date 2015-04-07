@@ -29,7 +29,7 @@ private:
 	Camera _camera;
 	Tunnel _tunnel;
 	SkyTube _skytube;
-	GLint _lightdirnID;
+	GLint _posShipID;
 };
 
 #endif
