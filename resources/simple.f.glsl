@@ -7,7 +7,8 @@ in vec4 vPosition;
 out vec4 fragColor;
 
 vec3 lightcolor = vec3(1, 1, 1);
-vec3 ambient = vec3(0.5, 0.5, 0.5);
+vec3 ambient = vec3(0.85, 0.85, 0.85);
+vec3 spotPower = vec3(0.5, 0.5, 0.5);
 
 uniform vec3 posShip;
 uniform float time;
@@ -38,7 +39,7 @@ void main() {
 	if(diff > 0)
 	{
 		att = pow(diff/att, 2);
-		vec3 lambert = ComputeLightLambert(spotdirn.xyz, spotcolor, fragNormal, vec3(0.5,0.5,0.5));
+		vec3 lambert = ComputeLightLambert(spotdirn.xyz, spotcolor, fragNormal, spotPower);
 		fragColor+=vec4(lambert*texture(colormap, fragUv).rgb,1) * att;
 	}
 }
