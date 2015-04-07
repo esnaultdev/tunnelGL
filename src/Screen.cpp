@@ -17,3 +17,7 @@ void Screen::update(double dt){
 
 void Screen::draw(){
 }
+
+void Screen::onEnd(){
+	
+}

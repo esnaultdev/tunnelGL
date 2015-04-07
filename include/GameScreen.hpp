@@ -21,6 +21,7 @@ public:
 	void init();
 	void update(double dt);
 	void draw();
+	void onEnd();
 
 private:
 	glhf::Program _prog;

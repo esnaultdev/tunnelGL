@@ -20,7 +20,7 @@ public:
 	void draw();
 	float getPosEndZ();
 	float getRadius();
-	bool isHole(float angle, float z);
+	int isHole(float angle, float z);
 
 	void loadNew(const int difficulty);
 	void loadNext(const int next);

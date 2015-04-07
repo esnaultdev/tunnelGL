@@ -325,12 +325,12 @@ float TunnelSection::getRadius() {
 	return _radius;
 }
 
-bool TunnelSection::isHole(float angle, float z) {
+int TunnelSection::isHole(float angle, float z) {
 	int posZ = ((int) ((z - _posStartZ) / _length * TUNNEL_NB_POINT_Z)) % TUNNEL_NB_POINT_Z;
 	int posAngle = (((int) std::floor(angle / (M_PI * 2) * TUNNEL_NB_POLY)) % TUNNEL_NB_POLY);
 
 	if (posAngle < 0)
 		posAngle += TUNNEL_NB_POLY;
 
-	return _matrices[_matrixId].matrix[posZ][posAngle] != SAFE;
+	return _matrices[_matrixId].matrix[posZ][posAngle];
 }

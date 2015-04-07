@@ -15,11 +15,12 @@
 extern Engine* engine;
 extern GLFWwindow* window;
 
-EndScreen::EndScreen(glhf::Program prog, int time, int score, int speed){
+EndScreen::EndScreen(glhf::Program prog, int time, int score, int speed, GameScreen *screen){
 	_prog = prog;
 	_score = score;
 	_time = time;
 	_speed = speed;
+	_screen = screen;
 
 	std::cout << "Time: " << time << " " << " Score: " << score << " Speed: " << speed << std::endl;
 }
@@ -37,7 +38,7 @@ void EndScreen::init(){
 
 void EndScreen::update(double dt) {
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS ) { //boost
-		engine->setNextScreen(new GameScreen(_prog));
+		engine->setNextScreen(_screen);
 	}
 }
 

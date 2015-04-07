@@ -23,7 +23,6 @@ GameScreen::GameScreen(glhf::Program prog){
 
 GameScreen::~GameScreen(){
 	cleanupText2D();
-	music->stop();
 	music->drop();
 	SoundEngine->drop();
 }
@@ -36,7 +35,7 @@ void GameScreen::init(){
 	
 	_time = 0;
 	_player = Player(_prog);
-	_tunnel = Tunnel(_prog, &_player);
+	_tunnel = Tunnel(_prog, &_player, SoundEngine);
 	_camera = Camera(_prog, &_player);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
@@ -53,8 +52,18 @@ void GameScreen::update(double dt) {
 
 	glm::vec3 posPlayer = _player.getPos();
 
-	if (_tunnel.update(dt)) {
-		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000)));
+	int isCrashed = _tunnel.update(dt);
+	if (isCrashed > 0) {
+		irrklang::ISound *sfx;
+		if (isCrashed == 1) {
+			sfx = SoundEngine->play2D("../resources/fall.ogg", false, false, true);
+			sfx->setVolume(0.8);
+		}
+		else {
+			sfx = SoundEngine->play2D("../resources/crash.ogg", false, false, true);
+			sfx->setVolume(0.3);
+		}
+		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this));
 	}
 
 	_camera.update(dt);
@@ -89,4 +98,8 @@ void GameScreen::draw(){
 	else
 		strs3 << sec;
 	printText2D(strs3.str().c_str(), 800, 750, 50);
+}
+
+void GameScreen::onEnd() {
+	music->setIsPaused(true);
 }
