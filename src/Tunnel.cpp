@@ -1,5 +1,7 @@
 #include "Tunnel.hpp"
 #include <cstdlib>
+#include <sstream>
+#include "PrintText.hpp"
 
 Tunnel::Tunnel() {
 	srand(time(NULL));
@@ -30,6 +32,8 @@ Tunnel::~Tunnel() {
 }
 
 bool Tunnel::update(double dt) {
+	_newLevelTime += dt;
+
 	if (_player->getPos().z >= _tunnel[0].getPosEndZ())
 		nextTunnel();
 
@@ -44,8 +48,15 @@ void Tunnel::nextTunnel() {
 		tunnel.loadNext(_tunnel[NB_TUNNEL - 1].getNextId());
 	} else {
 		int level = _nbSectionEnded / NB_SECTION_BEFORE_LEVEL + 1;
-		tunnel.loadNew(rand() % level + 1);
-		std::cout << level << std::endl;
+
+		if (level > _level){
+			_newLevel = true;
+			_newLevelTime = 0;	
+			_level = level;
+		}
+
+		tunnel.loadNew(rand() % _level + 1);
+		std::cout << _level << std::endl;
 	}
 	tunnel.init(_tunnel[NB_TUNNEL - 1].getPosEndZ());
 
@@ -62,4 +73,17 @@ float Tunnel::getRadius() {
 void Tunnel::draw() {
 	for (int i = 0; i < NB_TUNNEL; ++i)
 		_tunnel[i].draw();
+}
+
+void Tunnel::drawText() {
+	if (_newLevel) {
+		if (_newLevelTime > TIME_DISPLAY_NEW_LEVEL)
+			_newLevel = false;
+
+		if ( ((int) (_newLevelTime*10)) % 2 == 0) {
+ 			std::ostringstream strs;
+			strs << "LEVEL : " << _level;
+			printText2D(strs.str().c_str(), 300, 420, 40);
+		}
+	}
 }

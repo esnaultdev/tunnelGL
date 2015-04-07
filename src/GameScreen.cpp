@@ -64,6 +64,7 @@ void GameScreen::draw(){
 	glDisable(GL_CULL_FACE);
 
 	_player.drawText();
+	_tunnel.drawText();
 
 	std::ostringstream strs3;
 	int sec = ((int)_time) % 60;
