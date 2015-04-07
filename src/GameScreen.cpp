@@ -53,6 +53,7 @@ void GameScreen::update(double dt) {
 	glm::vec3 posPlayer = _player.getPos();
 
 	if (_tunnel.update(dt)) {
+		SoundEngine->play2D("../resources/crash.ogg");
 		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this));
 	}
 
