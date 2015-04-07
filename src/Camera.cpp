@@ -19,15 +19,15 @@ Camera::Camera(glhf::Program prog, Player *player) {
 
 	_offsetCameraNormal.y = -player->getRadius()*2;
 	_offsetCameraNormal.z = 0;
-	_offsetCameraBoost.y = -player->getRadius()*2;
-	_offsetCameraBoost.z = player->getRadius()*10;
+	_offsetCameraBoost.y = -player->getRadius()*1.55f;
+	_offsetCameraBoost.z = player->getRadius()*5.0f;
 }
 
 void Camera::update(double dt) {
 	glm::vec3 posPlayer = _player->getPos();
 	glm::vec3 posCamera = posPlayer;
 
-	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.5f);
+	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.0f);
 	_offsetCameraNormal.z = -0.2 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*10.f);
 
 
@@ -37,7 +37,7 @@ void Camera::update(double dt) {
 			_timeMove = DURATION_BOOST_ANIM;
 		move(dt);
 
-		posCamera = glm::vec3(posCamera.x + ((std::rand() % 3 + 1 - 3/2.f)/400.f), posCamera.y + ((std::rand() % 3 + 1 - 3/2.f)/400.f), posCamera.z);
+		posCamera = glm::vec3(posCamera.x + ((std::rand() % 3 + 1 - 3/2.f)/800.f), posCamera.y + ((std::rand() % 3 + 1 - 3/2.f)/800.f), posCamera.z);
 	} else {
 		_timeMove -= dt;
 		if (_timeMove < 0)
