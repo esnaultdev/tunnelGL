@@ -7,9 +7,10 @@ Tunnel::Tunnel() {
 	srand(time(NULL));
 }
 
-Tunnel::Tunnel(glhf::Program prog, Player *player) {
+Tunnel::Tunnel(glhf::Program prog, Player *player, irrklang::ISoundEngine *SoundEngine) {
 	_prog = prog;
 	_player = player;
+	_SoundEngine = SoundEngine;
 
 	TunnelSection::loadMatricesFile();
 	_tunnel[0] = TunnelSection(_prog);
@@ -31,7 +32,7 @@ Tunnel::~Tunnel() {
 
 }
 
-bool Tunnel::update(double dt) {
+int Tunnel::update(double dt) {
 	_newLevelTime += dt;
 
 	if (_player->getPos().z >= _tunnel[0].getPosEndZ())
@@ -53,6 +54,8 @@ void Tunnel::nextTunnel() {
 			_newLevel = true;
 			_newLevelTime = 0;	
 			_level = level;
+			irrklang::ISound *sfx = _SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
+			sfx->setVolume(0.4);
 		}
 
 		tunnel.loadNew(rand() % _level + 1);
