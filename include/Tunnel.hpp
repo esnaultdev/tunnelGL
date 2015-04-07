@@ -2,6 +2,7 @@
 #define _TUNNEL
 
 #define NB_TUNNEL 4
+#define NB_SECTION_BEFORE_LEVEL 10
 
 #include "Player.hpp"
 #include "glhfAPI.hpp"
@@ -21,6 +22,7 @@ private:
 	glhf::Program _prog;
 	Player *_player;
 	TunnelSection _tunnel[NB_TUNNEL];
+	int _nbSectionEnded = 0;
 };
 
 #endif

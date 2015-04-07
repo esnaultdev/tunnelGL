@@ -37,11 +37,15 @@ bool Tunnel::update(double dt) {
 }
 
 void Tunnel::nextTunnel() {
+	_nbSectionEnded++;
+
 	TunnelSection tunnel = TunnelSection(_prog);
 	if (_tunnel[NB_TUNNEL - 1].hasNext()) {
 		tunnel.loadNext(_tunnel[NB_TUNNEL - 1].getNextId());
 	} else {
-		tunnel.loadNew(2); //TODO : variation
+		int level = _nbSectionEnded / NB_SECTION_BEFORE_LEVEL + 1;
+		tunnel.loadNew(rand() % level + 1);
+		std::cout << level << std::endl;
 	}
 	tunnel.init(_tunnel[NB_TUNNEL - 1].getPosEndZ());
 
