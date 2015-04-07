@@ -20,6 +20,8 @@ EndScreen::EndScreen(glhf::Program prog, int time, int score, int speed){
 	_score = score;
 	_time = time;
 	_speed = speed;
+
+	std::cout << "Time: " << time << " " << " Score: " << score << " Speed: " << speed << std::endl;
 }
 
 EndScreen::~EndScreen(){
