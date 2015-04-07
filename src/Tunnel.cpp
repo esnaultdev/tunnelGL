@@ -41,7 +41,7 @@ void Tunnel::nextTunnel() {
 	if (_tunnel[NB_TUNNEL - 1].hasNext()) {
 		tunnel.loadNext(_tunnel[NB_TUNNEL - 1].getNextId());
 	} else {
-		tunnel.loadNew(1); //TODO : variation
+		tunnel.loadNew(2); //TODO : variation
 	}
 	tunnel.init(_tunnel[NB_TUNNEL - 1].getPosEndZ());
 
