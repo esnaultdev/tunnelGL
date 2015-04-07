@@ -27,7 +27,6 @@ void Camera::update(double dt) {
 
 	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.0f);
 	_offsetCameraNormal.z = -0.25 + std::min(1.75f * _player->getSpeed(), _player->getRadius()*7.f);
-	std::cout << _offsetCameraNormal.z << std::endl;
 
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
