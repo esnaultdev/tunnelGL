@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <GL/glew.h> 
+#include <irrKlang.h>
 
 #include "glhfAPI.hpp"
 
@@ -29,6 +30,8 @@ private:
 	Camera _camera;
 	Tunnel _tunnel;
 	SkyTube _skytube;
+	irrklang::ISoundEngine *SoundEngine;
+	irrklang::ISound *music;
 	GLint _posShipID;
 };
 

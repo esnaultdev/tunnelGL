@@ -11,8 +11,19 @@ LINK_DIRECTORIES("~/local_install/lib")
 LINK_DIRECTORIES("/usr/local/lib")
 INCLUDE_DIRECTORIES("/usr/local/include")
 INCLUDE_DIRECTORIES("~/local_install/include")
-INCLUDE_DIRECTORIES("./3rd-parties/")
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/3rd-parties/irrKlang/include")
 ###  Settings  ###}}}
+
+###  irrKlang ###
+if(APPLE)
+FIND_LIBRARY(IRRKLANG_LIBRARY
+	NAMES libirrklang.dylib
+	PATHS "${CMAKE_CURRENT_SOURCE_DIR}/3rd-parties/irrKlang/lib")
+else(APPLE)
+FIND_LIBRARY(IRRKLANG_LIBRARY
+	NAMES libIrrKlang.so
+	PATHS "${CMAKE_CURRENT_SOURCE_DIR}/3rd-parties/irrKlang/lib")
+endif(APPLE)
 
 ###  OpenGL  ###{{{
 find_package(OpenGL)
@@ -59,7 +70,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 file(GLOB SOURCES "${SRC_DIR}/*.cpp")
 add_executable(tunnelGL ${SOURCES})
-target_link_libraries(tunnelGL ${GL_LIBRARIES} ${GLFW3_STATIC_LIBRARIES} utils ${ASSIMP_LIBRARIES}) # this is to save an image (for screenshots)
+target_link_libraries(tunnelGL ${GL_LIBRARIES} ${GLFW3_STATIC_LIBRARIES} utils ${ASSIMP_LIBRARIES} ${IRRKLANG_LIBRARY}) # this is to save an image (for screenshots)
 ###  The executable  ###}}}
 
 

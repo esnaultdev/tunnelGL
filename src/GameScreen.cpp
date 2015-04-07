@@ -13,11 +13,19 @@ extern Engine* engine;
 extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
+	std::cout << "===== HEY =====" << std::endl;
 	_prog = prog;
+	SoundEngine = irrklang::createIrrKlangDevice();
+	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
+	music->setVolume(0.4);
+	music->setIsPaused(true);
 }
 
 GameScreen::~GameScreen(){
 	cleanupText2D();
+	music->stop();
+	music->drop();
+	SoundEngine->drop();
 }
 
 void GameScreen::init(){
@@ -33,6 +41,9 @@ void GameScreen::init(){
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
 	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
+	
+	music->setIsPaused(false);
+	music->setPlayPosition(0);
 }
 
 void GameScreen::update(double dt) {

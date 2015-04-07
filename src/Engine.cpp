@@ -4,6 +4,7 @@
 #include <iostream>
 
 Engine::Engine(glhf::Program prog){
+
 	_currentScreen = new MenuScreen(prog);
 	_currentScreen->init();
 	_prog = prog;
