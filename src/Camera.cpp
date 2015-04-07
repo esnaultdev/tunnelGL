@@ -28,7 +28,7 @@ void Camera::update(double dt) {
 	glm::vec3 posCamera = posPlayer;
 
 	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.5f);
-	_offsetCameraNormal.z = 0 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*10.f);
+	_offsetCameraNormal.z = -0.2 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*10.f);
 
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
