@@ -13,11 +13,19 @@ extern Engine* engine;
 extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
+	std::cout << "===== HEY =====" << std::endl;
 	_prog = prog;
+	SoundEngine = irrklang::createIrrKlangDevice();
+	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
+	music->setVolume(0.4);
+	music->setIsPaused(true);
 }
 
 GameScreen::~GameScreen(){
 	cleanupText2D();
+	music->stop();
+	music->drop();
+	SoundEngine->drop();
 }
 
 void GameScreen::init(){
@@ -32,6 +40,10 @@ void GameScreen::init(){
 	_camera = Camera(_prog, &_player);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
+	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
+	
+	music->setIsPaused(false);
+	music->setPlayPosition(0);
 }
 
 void GameScreen::update(double dt) {
@@ -48,6 +60,9 @@ void GameScreen::update(double dt) {
 	_camera.update(dt);
 	_skytube.setPos(posPlayer);
 
+	float speed = (_player.getSpeed() - 0.07)*7;
+	glm::vec3 ambient(1 - speed, 1 - speed, 1 - speed);
+	glUniform3f(_lightAmbientID, ambient.x, ambient.y, ambient.z);
 	glUniform3f(_posShipID, posPlayer.x, posPlayer.y, posPlayer.z);
 }
 
@@ -64,6 +79,7 @@ void GameScreen::draw(){
 	glDisable(GL_CULL_FACE);
 
 	_player.drawText();
+	_tunnel.drawText();
 
 	std::ostringstream strs3;
 	int sec = ((int)_time) % 60;

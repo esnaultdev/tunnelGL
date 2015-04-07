@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <GL/glew.h> 
+#include <irrKlang.h>
 
 #include "glhfAPI.hpp"
 
@@ -23,12 +24,14 @@ public:
 
 private:
 	glhf::Program _prog;
-
+	GLuint _lightAmbientID;
 	float _time = 0;
 	Player _player;
 	Camera _camera;
 	Tunnel _tunnel;
 	SkyTube _skytube;
+	irrklang::ISoundEngine *SoundEngine;
+	irrklang::ISound *music;
 	GLint _posShipID;
 };
 

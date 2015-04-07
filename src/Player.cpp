@@ -13,7 +13,7 @@ Player::Player() {
 Player::Player(glhf::Program prog) {
 	//build the player object with prog
 	_pos = glm::vec3(0, 0, 0);
-	_speed = glm::vec3(0, 0, 0.05);
+	_speed = glm::vec3(0, 0, 0.07);
 	_obj.setProgram(prog);
 	_obj.load("vaisseau.obj");
 	_obj.initVao();
@@ -35,7 +35,7 @@ void Player::update(double dt, float radiusTunnel) {
 	}
 	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) { //boost
-		_speed.z += dt/500.0;
+		_speed.z += dt/400.0;
 		_score += dt * _speed.z * 2000;
 	} else {
 		_score += dt * _speed.z * 1000;

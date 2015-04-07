@@ -17,8 +17,6 @@ Camera::Camera(glhf::Program prog, Player *player) {
 	_projection = glm::perspective(45.0f, 1024.0f/800.0f, 0.1f, 100.0f);
 	_cameraID = glGetUniformLocation(_prog.getId(), "viewProjection");
 
-	_offsetCameraNormal.y = -player->getRadius()*2;
-	_offsetCameraNormal.z = 0;
 	_offsetCameraBoost.y = -player->getRadius()*1.55f;
 	_offsetCameraBoost.z = player->getRadius()*5.0f;
 }
@@ -28,7 +26,7 @@ void Camera::update(double dt) {
 	glm::vec3 posCamera = posPlayer;
 
 	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.0f);
-	_offsetCameraNormal.z = -0.2 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*10.f);
+	_offsetCameraNormal.z = -0.25 + std::min(1.75f * _player->getSpeed(), _player->getRadius()*7.f);
 
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) {
@@ -50,7 +48,7 @@ void Camera::update(double dt) {
 
 	glm::mat4 view = glm::lookAt(
 		posCamera,
-		posPlayer + glm::vec3(0,0,10),
+		posPlayer + glm::vec3(0, 0, 8),
 		glm::normalize(glm::vec3(-posPlayer.x,-posPlayer.y,0)));
 
 	glm::mat4 camera = _projection * view;

@@ -34,7 +34,7 @@ GLuint loadDDS(const char * imagepath){
         fread(&header, 124, 1, fp);
 
         unsigned int height      = *(unsigned int*)&(header[8 ]);
-        unsigned int width           = *(unsigned int*)&(header[12]);
+        unsigned int width       = *(unsigned int*)&(header[12]);
         unsigned int linearSize  = *(unsigned int*)&(header[16]);
         unsigned int mipMapCount = *(unsigned int*)&(header[24]);
         unsigned int fourCC      = *(unsigned int*)&(header[80]);
