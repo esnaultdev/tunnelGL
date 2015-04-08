@@ -1,16 +1,17 @@
 #include "Tunnel.hpp"
+#include <irrKlang.h>
 #include <cstdlib>
 #include <sstream>
 #include "PrintText.hpp"
+
+extern irrklang::ISoundEngine* SoundEngine;
 
 Tunnel::Tunnel() {
 	srand(time(NULL));
 }
 
-Tunnel::Tunnel(glhf::Program prog, Player *player, irrklang::ISoundEngine *SoundEngine) {
+Tunnel::Tunnel(glhf::Program prog) {
 	_prog = prog;
-	_player = player;
-	_SoundEngine = SoundEngine;
 
 	TunnelSection::loadMatricesFile();
 	_tunnel[0] = TunnelSection(_prog);
@@ -32,13 +33,16 @@ Tunnel::~Tunnel() {
 
 }
 
-int Tunnel::update(double dt) {
+void Tunnel::update(double dt, double posz) {
 	_newLevelTime += dt;
 
-	if (_player->getPos().z >= _tunnel[0].getPosEndZ())
+	if (posz >= _tunnel[0].getPosEndZ())
 		nextTunnel();
+	
+}
 
-	return _tunnel[0].isHole(_player->getAngle(), _player->getPos().z);
+int Tunnel::isHole(double angle, double posz){
+	return _tunnel[0].isHole(angle, posz);
 }
 
 void Tunnel::nextTunnel() {
@@ -54,7 +58,7 @@ void Tunnel::nextTunnel() {
 			_newLevel = true;
 			_newLevelTime = 0;	
 			_level = level;
-			irrklang::ISound *sfx = _SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
+			irrklang::ISound *sfx = SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
 			sfx->setVolume(0.4);
 		}
 

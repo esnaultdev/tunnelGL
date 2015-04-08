@@ -5,6 +5,9 @@
 #include "glhfAPI.hpp"
 
 #include "Screen.hpp"
+#include "Camera.hpp"
+#include "Tunnel.hpp"
+#include "SkyTube.hpp"
 
 class MenuScreen : public Screen {
 
@@ -25,7 +28,9 @@ private:
 	GLuint _idProgram;
 	GLuint _idUniform;
 	std::vector<glm::vec2> _position;
-
+	SkyTube _skytube;
+	Tunnel _tunnel;
+	Camera _camera;
 };
 
 #endif

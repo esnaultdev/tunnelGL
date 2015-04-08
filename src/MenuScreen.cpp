@@ -2,6 +2,7 @@
 #include <sstream>
 #include <cmath>
 #include <glm/glm.hpp>
+#include <irrKlang.h>
 #include "MenuScreen.hpp"
 #include "utils/textures.h"
 
@@ -9,9 +10,11 @@
 #include "GameScreen.hpp"
 #include "PrintText.hpp"
 #include "Tunnel.hpp"
+#include "Camera.hpp"
 
 extern Engine* engine;
 extern GLFWwindow* window;
+extern irrklang::ISoundEngine* SoundEngine;
 
 MenuScreen::MenuScreen(glhf::Program prog){
 	_prog = prog;
@@ -23,9 +26,16 @@ MenuScreen::~MenuScreen(){
 
 void MenuScreen::init(){
 	initText2D("../resources/font.DDS", 16);
+	
+	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
+	_camera = Camera(_prog, glm::vec3(0, 0, 0), 0);	
+	_tunnel = Tunnel(_prog);
+
+	/*
 	_idTexture = loadTGATexture("../resources/mainScreen.tga");
 	getTextProgId(&_idProgram, &_idUniform);
 	makeResources();
+	*/
 }
 
 void MenuScreen::update(double dt) {

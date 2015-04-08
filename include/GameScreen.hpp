@@ -10,7 +10,7 @@
 #include "Screen.hpp"
 #include "Tunnel.hpp"
 #include "Player.hpp"
-#include "Camera.hpp"
+#include "PlayerCamera.hpp"
 #include "SkyTube.hpp"
 
 class GameScreen : public Screen {
@@ -28,10 +28,9 @@ private:
 	GLuint _lightAmbientID;
 	float _time = 0;
 	Player _player;
-	Camera _camera;
+	PlayerCamera _camera;
 	Tunnel _tunnel;
 	SkyTube _skytube;
-	irrklang::ISoundEngine *SoundEngine;
 	irrklang::ISound *music;
 	GLint _posShipID;
 };

@@ -2,6 +2,9 @@
 #include "MenuScreen.hpp"
 #include "Engine.hpp"
 #include <iostream>
+#include <irrKlang.h>
+
+irrklang::ISoundEngine * SoundEngine = irrklang::createIrrKlangDevice();
 
 Engine::Engine(glhf::Program prog){
 

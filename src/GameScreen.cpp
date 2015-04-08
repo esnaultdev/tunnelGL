@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include <irrKlang.h>
 #include "EndScreen.hpp"
 #include "GameScreen.hpp"
 #include "Engine.hpp"
@@ -9,13 +10,13 @@
 
 extern Engine* engine;
 extern GLFWwindow* window;
+extern irrklang::ISoundEngine* SoundEngine;
 
 GameScreen::GameScreen(glhf::Program prog){
 	_prog = prog;
 	_player = Player(_prog);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 
-	SoundEngine = irrklang::createIrrKlangDevice();
 	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
 	music->setVolume(0.4);
 	music->setIsPaused(true);
@@ -24,7 +25,6 @@ GameScreen::GameScreen(glhf::Program prog){
 GameScreen::~GameScreen(){
 	cleanupText2D();
 	music->drop();
-	SoundEngine->drop();
 }
 
 void GameScreen::init(){
@@ -33,8 +33,8 @@ void GameScreen::init(){
 	_time = 0;
 	
 	_player.reset();
-	_tunnel = Tunnel(_prog, &_player, SoundEngine);
-	_camera = Camera(_prog, &_player);
+	_tunnel = Tunnel(_prog);
+	_camera = PlayerCamera(_prog, &_player);
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
 	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
 	
@@ -49,7 +49,10 @@ void GameScreen::update(double dt) {
 
 	glm::vec3 posPlayer = _player.getPos();
 
-	int isCrashed = _tunnel.update(dt);
+	_tunnel.update(dt, _player.getPos().z);
+
+	int isCrashed = _tunnel.isHole(_player.getAngle(), _player.getPos().z);
+
 	if (isCrashed > 0) {
 		irrklang::ISound *sfx;
 		if (isCrashed == 1) {

@@ -36,6 +36,7 @@ set(GL_LIBRARIES ${OPENGL_LIBRARIES} GLEW)
 if(APPLE)
  set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
  SET(APPLE_FRAMEWORKS "-framework Cocoa -framework IOkit -framework CoreVideo")
+ set(GL_LIBRARIES ${APPLE_FRAMEWORKS} ${GL_LIBRARIES} GLEW)
 endif(APPLE)
 ###  OpenGL  ###}}}
 
