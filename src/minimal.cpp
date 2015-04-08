@@ -48,6 +48,12 @@ void mainLoop(void) {
         // swap back and front buffers
 
 		glfwSwapBuffers(window);
+
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS ) { //boost
+			shutDown(0);
+			break;
+		}
+
         glfwPollEvents();
     }
 }
