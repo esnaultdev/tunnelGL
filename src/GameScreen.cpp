@@ -12,9 +12,8 @@ extern GLFWwindow* window;
 
 GameScreen::GameScreen(glhf::Program prog){
 	_prog = prog;
-
 	_player = Player(_prog);
-		_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
+	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 
 	SoundEngine = irrklang::createIrrKlangDevice();
 	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);

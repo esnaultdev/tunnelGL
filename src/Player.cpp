@@ -28,6 +28,7 @@ Player::~Player() {
 void Player::reset(){
 	_pos = glm::vec3(0, 0, 0);
 	_speed = glm::vec3(0, 0, 0.07);
+	_score = 0;
 }
 
 void Player::update(double dt, float radiusTunnel) {
