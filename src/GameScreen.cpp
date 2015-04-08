@@ -33,7 +33,7 @@ void GameScreen::init(){
 	_time = 0;
 	
 	_player.reset();
-	_tunnel = Tunnel(_prog);
+	_tunnel = new Tunnel(_prog);
 	_camera = PlayerCamera(_prog, &_player);
 	_posShipID = glGetUniformLocation(_prog.getId(), "posShip");
 	_lightAmbientID = glGetUniformLocation(_prog.getId(), "colorReal");
@@ -45,13 +45,13 @@ void GameScreen::init(){
 void GameScreen::update(double dt) {
 	_time += dt;
 
-	_player.update(dt, _tunnel.getRadius());
+	_player.update(dt, _tunnel->getRadius());
 
 	glm::vec3 posPlayer = _player.getPos();
 
-	_tunnel.update(dt, _player.getPos().z);
+	_tunnel->update(dt, _player.getPos().z);
 
-	int isCrashed = _tunnel.isHole(_player.getAngle(), _player.getPos().z);
+	int isCrashed = _tunnel->isHole(_player.getAngle(), _player.getPos().z);
 
 	if (isCrashed > 0) {
 		irrklang::ISound *sfx;
@@ -63,7 +63,7 @@ void GameScreen::update(double dt) {
 			sfx = SoundEngine->play2D("../resources/crash.ogg", false, false, true);
 			sfx->setVolume(0.3);
 		}
-		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this));
+		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this, _tunnel, posPlayer, _player.getAngle()));
 	}
 
 	_camera.update(dt);
@@ -79,7 +79,7 @@ void GameScreen::draw(){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	
-	_tunnel.draw();
+	_tunnel->draw();
 	_player.draw();
 	_skytube.draw();
 
@@ -88,7 +88,7 @@ void GameScreen::draw(){
 	glDisable(GL_CULL_FACE);
 
 	_player.drawText();
-	_tunnel.drawText();
+	_tunnel->drawText();
 
 	std::ostringstream strs3;
 	int sec = ((int)_time) % 60;

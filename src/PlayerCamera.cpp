@@ -26,7 +26,7 @@ void PlayerCamera::update(double dt) {
 	glm::vec3 posPlayerCamera = posPlayer;
 
 	_offsetCameraNormal.y = -_player->getRadius()*4 + std::min(0.5f * _player->getSpeed(), _player->getRadius()*1.0f);
-	_offsetCameraNormal.z = -0.25 + std::min(1.75f * _player->getSpeed(), _player->getRadius()*7.f);
+	_offsetCameraNormal.z = -0.3 + std::min(1.75f * _player->getSpeed(), _player->getRadius()*7.f);
 
 	glm::vec3 direction(0, 0, 8);
 

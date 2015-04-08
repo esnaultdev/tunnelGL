@@ -16,7 +16,7 @@ public:
 	Camera();
 	Camera(glhf::Program prog, glm::vec3 pos, double angle);
 	~Camera();
-	void translate(double z);
+	void translate(glm::vec3 v);
 	void rotate(double z);
 
 private:

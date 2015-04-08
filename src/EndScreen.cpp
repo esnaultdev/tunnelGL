@@ -1,68 +1,77 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
-#include <glm/glm.hpp>
+
 #include "EndScreen.hpp"
 #include "utils/textures.h"
 
 #include "Engine.hpp"
-#include "GameScreen.hpp"
 #include "PrintText.hpp"
-#include "Tunnel.hpp"
 
 extern Engine* engine;
 extern GLFWwindow* window;
 
-EndScreen::EndScreen(glhf::Program prog, int time, int score, int speed, GameScreen *screen){
+EndScreen::EndScreen(glhf::Program prog, int time, int score, int speed, GameScreen *screen, Tunnel * tunnel, glm::vec3 posPlayer, double anglePlayer ){
 	_prog = prog;
 	_score = score;
 	_time = time;
 	_speed = speed;
 	_screen = screen;
+	_pos = posPlayer;
+	_angle = anglePlayer;
+	_tunnel = tunnel;
 
 	std::cout << "Time: " << time << " " << " Score: " << score << " Speed: " << speed << std::endl;
 }
 
 EndScreen::~EndScreen(){
 	cleanupText2D();
+	delete _tunnel;
 }
 
 void EndScreen::init(){
 	initText2D("../resources/font.DDS", 16);
-	_idTexture = loadTGATexture("../resources/mainScreen.tga");
-	getTextProgId(&_idProgram, &_idUniform);
-	makeResources();
+	_skytube = SkyTube(_prog, _pos);
+	_camera = Camera(_prog, _pos, _angle);
+	_tunnel->setMuted(true);
 }
 
 void EndScreen::update(double dt) {
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS ) { //boost
 		engine->setNextScreen(_screen);
 	}
+
+	glm::vec3 oldPos = _pos;
+	_pos.x *= 0.9;
+	_pos.y *= 0.9;
+	_pos.z += (float)_speed / 1000;
+
+	_tunnel->update(dt, _pos.z);
+	_camera.translate(_pos - oldPos);
+	_camera.rotate(dt/4);
+	_skytube.setPos(glm::vec3(0, 0, _pos.z));
 }
 
 void EndScreen::draw(){
-	glUseProgram(_idProgram);
-	glBindVertexArray(_vao);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _idTexture);
-	glUniform1i(_idUniform, 0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	
+	_tunnel->draw();
+	_skytube.draw();
 
-	glDrawArrays(GL_TRIANGLES, 0, _position.size());
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	std::ostringstream strs3;
-	strs3 << "Press ENTER to try again!";
-	printText2D(strs3.str().c_str(), 50, 750, 30);
+	printText2D(std::string("Press ENTER").c_str(), 165, 150, 60);
+	printText2D(std::string("to try again!").c_str(), 130, 80, 60);
 
 	std::ostringstream strs;
 	strs << "Score: " << _score;
-	printText2D(strs.str().c_str(), 50, 550, 30);
+	printText2D(strs.str().c_str(), 50, 550, 40);
 
 	std::ostringstream strs4;
 	strs4 << "Speed: " << _speed;
-	printText2D(strs4.str().c_str(), 50, 350, 30);
+	printText2D(strs4.str().c_str(), 50, 350, 40);
 
 	std::ostringstream strs2;
 	int sec = _time % 60;
@@ -71,47 +80,5 @@ void EndScreen::draw(){
 		strs2 << "0" << sec;
 	else
 		strs2 << sec;
-	printText2D(strs2.str().c_str(), 50, 450, 30);
-}
-
-void EndScreen::makeResources() {
-	std::vector<glm::vec2> uv;
-
-	_position.push_back(glm::vec2(0, 0));
-	_position.push_back(glm::vec2(0, 800));
-	_position.push_back(glm::vec2(1024, 0));
-
-	_position.push_back(glm::vec2(1024, 0));
-	_position.push_back(glm::vec2(0, 800));
-	_position.push_back(glm::vec2(1024, 800));
-
-	uv.push_back(glm::vec2(0, 0));
-	uv.push_back(glm::vec2(0, 1));
-	uv.push_back(glm::vec2(1, 0));
-
-	uv.push_back(glm::vec2(1, 0));
-	uv.push_back(glm::vec2(0, 1));
-	uv.push_back(glm::vec2(1, 1));
-
-	glUseProgram(_idProgram);
-	glBindAttribLocation(_idProgram, 0, "vertexPosition_screenspace");
-	glBindAttribLocation(_idProgram, 1, "vertexUV");
-	glLinkProgram(_idProgram);
-	glGenVertexArrays(1, &_vao);
-	glBindVertexArray(_vao);
-	glGenBuffers(1, &_vertexID);
-	glGenBuffers(1, &_uvID);
-	glBindBuffer(GL_ARRAY_BUFFER, _vertexID);
-	glBufferData(GL_ARRAY_BUFFER, _position.size() * sizeof(glm::vec2), &_position[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, _uvID);
-	glBufferData(GL_ARRAY_BUFFER, uv.size() * sizeof(glm::vec2), &uv[0], GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, _vertexID);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0 );
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, _uvID);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0 );
-	glBindVertexArray(0);
-	glUseProgram(0);
+	printText2D(strs2.str().c_str(), 50, 450, 40);
 }

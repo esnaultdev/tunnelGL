@@ -42,7 +42,7 @@ void MenuScreen::update(double dt) {
 	double diffZ = dt * 8;
 	_posZ += diffZ;
 	_tunnel.update(dt, _posZ);
-	_camera.translate(diffZ);
+	_camera.translate(glm::vec3(0, 0, diffZ));
 	_camera.rotate(dt / 2);
 	_skytube.setPos(glm::vec3(0, 0, _posZ));
 }
@@ -58,16 +58,16 @@ void MenuScreen::draw(){
 	glDisable(GL_CULL_FACE);
 
 	std::ostringstream strs3;
-	strs3 << "How to play";
-	printText2D(strs3.str().c_str(), 50, 750, 30);
+	strs3 << "TUNNEL GL";
+	printText2D(strs3.str().c_str(), 60, 650, 100);
 
 	std::ostringstream strs;
 	strs << "Press ENTER to start!";
-	printText2D(strs.str().c_str(), 50, 250, 30);
+	printText2D(strs.str().c_str(), 20, 100, 50);
 
-	printText2D("Move: Q/D or LEFT/RIGHT", 50, 500, 30);
+	printText2D("Move: Q/D or LEFT/RIGHT", 50, 200, 30);
 
 	std::ostringstream strs2;
 	strs2 << "Boost: SPACE";
-	printText2D(strs2.str().c_str(), 50, 450, 30);
+	printText2D(strs2.str().c_str(), 50, 250, 30);
 }

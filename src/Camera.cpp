@@ -20,8 +20,8 @@ Camera::Camera(glhf::Program prog, glm::vec3 pos, double angle){
 }
 
 
-void Camera::translate(double z){
-	_pos.z += z;
+void Camera::translate(glm::vec3 v){
+	_pos += v;
 
 	updateUniform();	
 }
@@ -35,7 +35,7 @@ void Camera::updateUniform() {
 	glm::mat4 view = glm::lookAt(
 		_pos,
 		_pos + glm::vec3(0, 0, 10),
-		glm::normalize(glm::vec3(glm::cos(_angle), glm::sin(_angle), 0)));
+		glm::normalize(glm::vec3(-glm::cos(_angle), -glm::sin(_angle), 0)));
 
 	glm::mat4 camera = _projection * view;
 	glUniformMatrix4fv(_cameraID, 1, GL_FALSE, &camera[0][0]);

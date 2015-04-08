@@ -1,7 +1,8 @@
 #ifndef _MENUSCREEN
 #define _MENUSCREEN
 
-#include <GL/glew.h> 
+#include <GL/glew.h>
+#include <glm/glm.hpp>
 #include "glhfAPI.hpp"
 
 #include "Screen.hpp"

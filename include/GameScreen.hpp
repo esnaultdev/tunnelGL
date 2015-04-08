@@ -29,7 +29,7 @@ private:
 	float _time = 0;
 	Player _player;
 	PlayerCamera _camera;
-	Tunnel _tunnel;
+	Tunnel * _tunnel;
 	SkyTube _skytube;
 	irrklang::ISound *music;
 	GLint _posShipID;

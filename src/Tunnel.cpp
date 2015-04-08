@@ -91,7 +91,7 @@ void Tunnel::drawText() {
 		if ( ((int) (_newLevelTime*10)) % 2 == 0) {
  			std::ostringstream strs;
 			strs << "LEVEL : " << _level;
-			printText2D(strs.str().c_str(), 300, 420, 40);
+			printText2D(strs.str().c_str(), 300, 200, 40);
 		}
 	}
 }
