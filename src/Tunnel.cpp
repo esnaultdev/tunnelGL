@@ -59,7 +59,6 @@ void Tunnel::nextTunnel() {
 		}
 
 		tunnel.loadNew(rand() % _level + 1);
-		//std::cout << _level << std::endl;
 	}
 	tunnel.init(_tunnel[NB_TUNNEL - 1].getPosEndZ());
 

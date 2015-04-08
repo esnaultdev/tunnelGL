@@ -56,19 +56,10 @@ void TunnelSection::loadNew(const int difficulty){
     	it++;
     }
     _matrixId = it->second;
-    std::cout << "Loaded new matrix #" << _matrixId << std::endl;
-    /*
-    if (difficulty == 0) {
-    	_matrixId = 0;
-    } else {
-    	_matrixId = 40;
-    }
-    */
 }
 
 void TunnelSection::loadNext(const int next){
 	_matrixId = next;
-	std::cout << "Loaded next matrix #" << _matrixId << std::endl;
 }
 
 bool TunnelSection::hasNext(){
@@ -93,15 +84,10 @@ void TunnelSection::loadMatricesFile(){
     	m.id = id;
     	ifs >> m.difficulty;
     	ifs >> m.next;
-    	//std::cout << id << std::endl;
-    	//std::cout << m.difficulty << std::endl;
-    	//std::cout << m.next << std::endl;
     	for (int i = 0; i < TUNNEL_NB_POINT_Z - 1; i++) {
     		for (int j = 0; j < TUNNEL_NB_POLY; j++) {
     			ifs >> m.matrix[i][j];
-    			//std::cout << m.matrix[i][j] << " ";
     		}
-    		//std::cout << std::endl;
     	}
     	for (int i = 0; i < TUNNEL_NB_POLY; ++i) {
     		m.matrix[TUNNEL_NB_POINT_Z-1][i] = SAFE;
@@ -152,7 +138,6 @@ void TunnelSection::makeSection(){
         	double x = glm::cos(theta) * _radius;
         	double y = glm::sin(theta) * _radius;
         	double z = sideLength * i + _posStartZ;
-        	//std::cout << "(" << i << ", " << j << ") x : " << x << " y : " << y << " z : " << z << std::endl;
 
             position.push_back(x);
 			position.push_back(y);
@@ -197,9 +182,9 @@ void TunnelSection::makeSection(){
 					positionCube.push_back(yy);
 					positionCube.push_back(z);
 
-					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-					colorCube.push_back(1);//std::abs(cos(colorAlea)));
-					colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					colorCube.push_back(1);
+					colorCube.push_back(1);
+					colorCube.push_back(1);
 
 					normalCube.push_back(0);
 					normalCube.push_back(0);
@@ -214,9 +199,9 @@ void TunnelSection::makeSection(){
 					positionCube.push_back(yy);
 					positionCube.push_back(zz);
 
-					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-					colorCube.push_back(1);//std::abs(cos(colorAlea)));
-					colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					colorCube.push_back(1);
+					colorCube.push_back(1);
+					colorCube.push_back(1);
 
 					normalCube.push_back(0);
 					normalCube.push_back(0);
@@ -235,9 +220,9 @@ void TunnelSection::makeSection(){
 					positionCube.push_back(yy);
 					positionCube.push_back(z);
 
-					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-					colorCube.push_back(1);//std::abs(cos(colorAlea)));
-					colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					colorCube.push_back(1);
+					colorCube.push_back(1);
+					colorCube.push_back(1);
 
 					normalCube.push_back(0);
 					normalCube.push_back(0);
@@ -252,9 +237,9 @@ void TunnelSection::makeSection(){
 					positionCube.push_back(yy);
 					positionCube.push_back(zz);
 
-					colorCube.push_back(1);//cos(colorAlea) + sin(colorAlea));
-					colorCube.push_back(1);//std::abs(cos(colorAlea)));
-					colorCube.push_back(1);//std::abs(sin(colorAlea)));
+					colorCube.push_back(1);
+					colorCube.push_back(1);
+					colorCube.push_back(1);
 
 					normalCube.push_back(0);
 					normalCube.push_back(0);

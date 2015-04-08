@@ -38,7 +38,7 @@ static GLuint make_shader(GLenum type, const std::string& filename)/*{{{*/
         glDeleteShader(shader);
         return 0;
     } else {
-		std::cout << filename << " compiled" << std::endl;
+		// std::cout << filename << " compiled" << std::endl;
 	}
     return shader;
 }/*}}}*/
@@ -60,7 +60,7 @@ static GLuint make_program(GLuint vertex_shader, GLuint fragment_shader)/*{{{*/
         glDeleteProgram(program);
         return 0;
     } else {
-		std::cout << "Vertex and fragment shaders linked" << std::endl;	
+		// std::cout << "Vertex and fragment shaders linked" << std::endl;	
 	}
     return program;
 }/*}}}*/

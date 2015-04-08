@@ -43,7 +43,6 @@ void Camera::update(double dt) {
 		move(dt);
 	}
 
-	//std::cout << _offsetCamera[0] << " " << _offsetCamera[1] << " " << _offsetCamera[2] << std::endl;
 	posCamera += _offsetCamera;
 
 	glm::mat4 view = glm::lookAt(
@@ -65,14 +64,6 @@ void Camera::move(double dt) {
 		t = _timeMove/d;
 		t -= 1;
 		_offsetCamera[i] = c*(t*t*t+1)+b;
-		/*
-		if (t < 1){
-			_offsetCamera[i] = c/2 * std::pow(2, 10 * (t - 1)) + b;
-		}
-		else {
-			t -= 1;
-			_offsetCamera[i] = c/2 * (- std::pow(2, -10 * t) + 2) + b;
-		} */
 	}
 	_offsetCamera[0] = cos(_player->getAngle()) * _offsetCamera[1];
 	_offsetCamera[1] = sin(_player->getAngle()) * _offsetCamera[1];
