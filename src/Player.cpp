@@ -32,12 +32,20 @@ void Player::reset(){
 
 void Player::update(double dt, float radiusTunnel) {
 	//Speed without friction on Z, but not on x and y
+	float tiltDiff = 0;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left
 		_angleSpeed += dt/8 * _speed.z *1000/80;
+		tiltDiff += M_PI / 256;
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS ) { //right	
 		_angleSpeed -= dt/8 * _speed.z *1000/80;
+		tiltDiff -= M_PI / 256;
 	}
+	float oldTilt = _tilt;
+	_tilt += tiltDiff;
+	if (_tilt > M_PI / 32) _tilt = M_PI / 32;
+	if (_tilt < -M_PI / 32) _tilt = -M_PI / 32;
+	_tilt *= FRICTION;
 	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS ) { //boost
 		_speed.z += dt/400.0;
@@ -47,7 +55,7 @@ void Player::update(double dt, float radiusTunnel) {
 	}
 
 	_angle += _angleSpeed;
-	_obj.rotate(_angleSpeed, 0, 0, 1);
+	_obj.rotate(_angleSpeed + (oldTilt - _tilt), 0, 0, 1);
 
 	_pos.x = cos(_angle) * (radiusTunnel - _radius);
 	_pos.y = sin(_angle) * (radiusTunnel - _radius);

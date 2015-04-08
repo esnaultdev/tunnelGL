@@ -30,9 +30,10 @@ private:
 	glm::vec3 _speed;
 	float _angle = M_PI/2 * 3;
 	float _angleSpeed = 0;
-	float _radius = 0.05;
+	float _radius = 0.08;
 	glhf::GLObject _obj;
 	float _score = 0;
+	float _tilt = 0;
 };
 
 #endif
