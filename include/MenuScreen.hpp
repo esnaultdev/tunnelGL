@@ -17,20 +17,13 @@ public:
 	void init();
 	void update(double dt);
 	void draw();
-	void makeResources();
 
 private:
 	glhf::Program _prog;
-	GLuint _idTexture;
-	GLuint _vao;
-	GLuint _vertexID;
-	GLuint _uvID;
-	GLuint _idProgram;
-	GLuint _idUniform;
-	std::vector<glm::vec2> _position;
 	SkyTube _skytube;
 	Tunnel _tunnel;
 	Camera _camera;
+	double _posZ;
 };
 
 #endif

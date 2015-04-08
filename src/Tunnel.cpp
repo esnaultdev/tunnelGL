@@ -58,8 +58,10 @@ void Tunnel::nextTunnel() {
 			_newLevel = true;
 			_newLevelTime = 0;	
 			_level = level;
-			irrklang::ISound *sfx = SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
-			sfx->setVolume(0.4);
+			if (!_muted) {
+				irrklang::ISound *sfx = SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
+				sfx->setVolume(0.4);
+			}
 		}
 
 		tunnel.loadNew(rand() % _level + 1);
@@ -92,4 +94,8 @@ void Tunnel::drawText() {
 			printText2D(strs.str().c_str(), 300, 420, 40);
 		}
 	}
+}
+
+void Tunnel::setMuted(bool muted) {
+	_muted = muted;
 }
