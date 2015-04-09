@@ -45,7 +45,7 @@ void GameScreen::init(){
 void GameScreen::update(double dt) {
 	_time += dt;
 
-	_player.update(dt, _tunnel->getRadius(), _tunnel);
+	_player.update(dt, _tunnel);
 
 	glm::vec3 posPlayer = _player.getPos();
 

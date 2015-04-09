@@ -17,7 +17,7 @@ public:
 	Player(glhf::Program prog);
 	~Player();
 	void reset();
-	void update(double dt, float tunnelRadius, Tunnel *tunnel);
+	void update(double dt, Tunnel *tunnel);
 	void draw();
 	glm::vec3 getPos();
 	float getRadius();

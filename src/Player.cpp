@@ -32,7 +32,7 @@ void Player::reset(){
 	_score = 0;
 }
 
-void Player::update(double dt, float radiusTunnel, Tunnel *tunnel) {
+void Player::update(double dt, Tunnel *tunnel) {
 	//Speed without friction on Z, but not on x and y
 	float tiltDiff = 0;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left
@@ -66,8 +66,8 @@ void Player::update(double dt, float radiusTunnel, Tunnel *tunnel) {
 
 	_angle += _angleSpeed;
 
-	_pos.x = cos(_angle) * (radiusTunnel - _radius);
-	_pos.y = sin(_angle) * (radiusTunnel - _radius);
+	_pos.x = cos(_angle) * (tunnel->getRadius() - _radius);
+	_pos.y = sin(_angle) * (tunnel->getRadius() - _radius);
 	
 	_obj.rotate(_angleSpeed + (oldTilt - _tilt), 0, 0, 1);
 	_obj.setTranslation(_pos.x, _pos.y, _pos.z);
