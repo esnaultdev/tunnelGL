@@ -6,6 +6,7 @@
 #include <glm/glm.hpp> 
 #include <cmath>
 #include "glhfAPI.hpp"
+#include "Tunnel.hpp"
 
 #define FRICTION 0.95
 
@@ -16,7 +17,7 @@ public:
 	Player(glhf::Program prog);
 	~Player();
 	void reset();
-	void update(double dt, float tunnelRadius);
+	void update(double dt, float tunnelRadius, Tunnel *tunnel);
 	void draw();
 	glm::vec3 getPos();
 	float getRadius();

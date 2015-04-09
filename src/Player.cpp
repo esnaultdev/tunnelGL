@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <sstream>
 #include "PrintText.hpp"
+#include "TunnelSection.hpp"
 
 extern GLFWwindow* window;
 
@@ -31,7 +32,7 @@ void Player::reset(){
 	_score = 0;
 }
 
-void Player::update(double dt, float radiusTunnel) {
+void Player::update(double dt, float radiusTunnel, Tunnel *tunnel) {
 	//Speed without friction on Z, but not on x and y
 	float tiltDiff = 0;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS ) { //left
@@ -55,12 +56,45 @@ void Player::update(double dt, float radiusTunnel) {
 		_score += dt * _speed.z * 1000;
 	}
 
-	_angle += _angleSpeed;
-	_obj.rotate(_angleSpeed + (oldTilt - _tilt), 0, 0, 1);
+	_pos.z += _speed.z;
+
+	if (tunnel->isHole(_angle, _pos.z) != SAFE) {
+		_angle += _angleSpeed;
+	} else {
+		float newAngle = _angle + _angleSpeed;
+		newAngle = newAngle >= M_PI*2 ? newAngle - M_PI*2 : (newAngle < 0 ? newAngle + M_PI*2 : newAngle);
+
+		if (tunnel->isHole(newAngle, _pos.z) == OBSTACLE) {
+			float angleStep = M_PI * 2 / 12; //12 sides for the tunnel
+			int playerNbStep =  (int) ((newAngle) / angleStep);
+
+			std::cout << _angleSpeed << " " << angleStep << " " << playerNbStep << " " << newAngle << " ";
+			if (_angleSpeed > 0) {
+				//_angle = playerNbStep * angleStep - _angleSpeed;
+				_angleSpeed = (playerNbStep * angleStep  - _angleSpeed*0.15) - _angle;
+
+			} else {
+				//_angle = (playerNbStep + 1) * angleStep;
+				_angleSpeed = ((playerNbStep + 1) * angleStep - _angleSpeed*0.15) - _angle;
+			}
+
+			std::cout << _angle << std::endl;
+			_angle += _angleSpeed;
+		} else {
+			_angle += _angleSpeed;
+		}
+	}
+	
+
+	if (_angle >= M_PI*2)
+		_angle -= M_PI*2;
+	else if (_angle < 0)
+		_angle += M_PI*2;
 
 	_pos.x = cos(_angle) * (radiusTunnel - _radius);
 	_pos.y = sin(_angle) * (radiusTunnel - _radius);
-	_pos.z += _speed.z;
+	
+	_obj.rotate(_angleSpeed + (oldTilt - _tilt), 0, 0, 1);
 	_obj.setTranslation(_pos.x, _pos.y, _pos.z);
 
 	_angleSpeed *= FRICTION;

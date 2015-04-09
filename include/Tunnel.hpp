@@ -5,7 +5,6 @@
 #define NB_SECTION_BEFORE_LEVEL 10
 #define TIME_DISPLAY_NEW_LEVEL 2.0f
 
-#include "Player.hpp"
 #include "glhfAPI.hpp"
 #include "TunnelSection.hpp"
 

@@ -9,6 +9,11 @@
 #define TUNNEL_RADIUS 0.5
 #define MATRICES_FILE "matrices.txt"
 
+#define OBSTACLE 2
+#define HOLE 1
+#define SAFE 0
+
+
 class TunnelSection {
 
 public:

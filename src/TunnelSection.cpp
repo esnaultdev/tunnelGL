@@ -10,11 +10,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-#define OBSTACLE 2
-#define HOLE 1
-#define SAFE 0
-
-
 std::map<int, TunnelSection::SectionMatrix> TunnelSection::_matrices;
 std::multimap<int, int> TunnelSection::_difficultyIds;
 int TunnelSection::_maxDifficulty = 0;
