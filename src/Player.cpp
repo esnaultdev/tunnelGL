@@ -58,38 +58,13 @@ void Player::update(double dt, float radiusTunnel, Tunnel *tunnel) {
 
 	_pos.z += _speed.z;
 
-	if (tunnel->isHole(_angle, _pos.z) != SAFE) {
-		_angle += _angleSpeed;
-	} else {
-		float newAngle = _angle + _angleSpeed;
-		newAngle = newAngle >= M_PI*2 ? newAngle - M_PI*2 : (newAngle < 0 ? newAngle + M_PI*2 : newAngle);
-
-		if (tunnel->isHole(newAngle, _pos.z) == OBSTACLE) {
-			float angleStep = M_PI * 2 / 12; //12 sides for the tunnel
-			int playerNbStep =  (int) ((newAngle) / angleStep);
-
-			std::cout << _angleSpeed << " " << angleStep << " " << playerNbStep << " " << newAngle << " ";
-			if (_angleSpeed > 0) {
-				//_angle = playerNbStep * angleStep - _angleSpeed;
-				_angleSpeed = (playerNbStep * angleStep  - _angleSpeed*0.15) - _angle;
-
-			} else {
-				//_angle = (playerNbStep + 1) * angleStep;
-				_angleSpeed = ((playerNbStep + 1) * angleStep - _angleSpeed*0.15) - _angle;
-			}
-
-			std::cout << _angle << std::endl;
-			_angle += _angleSpeed;
-		} else {
-			_angle += _angleSpeed;
+	if (!tunnel->isHole(_angle, _pos.z) != SAFE) {
+		if (tunnel->isHole(_angle + _angleSpeed * 4, _pos.z) == OBSTACLE) {
+			_angleSpeed = 0;
 		}
 	}
-	
 
-	if (_angle >= M_PI*2)
-		_angle -= M_PI*2;
-	else if (_angle < 0)
-		_angle += M_PI*2;
+	_angle += _angleSpeed;
 
 	_pos.x = cos(_angle) * (radiusTunnel - _radius);
 	_pos.y = sin(_angle) * (radiusTunnel - _radius);
