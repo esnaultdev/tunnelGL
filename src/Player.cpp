@@ -58,10 +58,8 @@ void Player::update(double dt, Tunnel *tunnel) {
 
 	_pos.z += _speed.z;
 
-	if (!tunnel->isHole(_angle, _pos.z) != SAFE) {
-		if (tunnel->isHole(_angle + _angleSpeed * 4, _pos.z) == OBSTACLE) {
-			_angleSpeed = 0;
-		}
+	if (tunnel->isHole(_angle, _pos.z) == SAFE && tunnel->isHole(_angle + _angleSpeed * 3, _pos.z) == OBSTACLE) {
+		_angleSpeed = 0;
 	}
 
 	_angle += _angleSpeed;
