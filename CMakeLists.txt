@@ -94,5 +94,3 @@ copy_files("resources/*.obj" ${CMAKE_BINARY_DIR})
 copy_files("resources/*.glsl" ${CMAKE_BINARY_DIR})
 copy_files("resources/*.txt" ${CMAKE_BINARY_DIR})
 ###  Copying resources (shaders, images,...)  ###}}}
-
-# vim: set foldmethod=marker:

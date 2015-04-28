@@ -20,6 +20,7 @@ public:
 	float getRadius();
 	void drawText();
 	void setMuted(bool muted);
+	
 private:
 	glhf::Program _prog;
 	TunnelSection _tunnel[NB_TUNNEL];
