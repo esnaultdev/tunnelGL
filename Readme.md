@@ -1,5 +1,7 @@
-ENSICAEN's School Projet
-========================
+TunnelGL
+========
+
+An ENSICAEN's School Project
 
 Presentation
 ------------
@@ -14,6 +16,9 @@ Made by 5 students from second year at ENSICAEN, specialized in Image and Multim
 - Pierre Vandromme
 - Ao
 - Gautier Boëda
+
+For more details about the project, check out the final presentation we made for the project
+in the folder doc/presentations (English and French available)
 
 Requirements
 ------------
