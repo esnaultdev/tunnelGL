@@ -1,5 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
+#include <cstdio>
+#include <cstdlib>
 #include "utils/utils.h"
 #include "utils/shaders.h"
 

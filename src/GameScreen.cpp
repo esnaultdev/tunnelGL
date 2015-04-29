@@ -17,7 +17,7 @@ GameScreen::GameScreen(glhf::Program prog){
 	_player = Player(_prog);
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 
-	music = SoundEngine->play2D("../resources/Hexagonest_Stage.ogg", true, false, true);
+	music = SoundEngine->play2D("Hexagonest_Stage.ogg", true, false, true);
 	music->setVolume(0.4);
 	music->setIsPaused(true);
 }
@@ -28,7 +28,7 @@ GameScreen::~GameScreen(){
 }
 
 void GameScreen::init(){
-	initText2D("../resources/font.DDS", 16);
+	initText2D("font.DDS", 16);
 	
 	_time = 0;
 	
@@ -56,11 +56,11 @@ void GameScreen::update(double dt) {
 	if (isCrashed > 0) {
 		irrklang::ISound *sfx;
 		if (isCrashed == 1) {
-			sfx = SoundEngine->play2D("../resources/fall.ogg", false, false, true);
+			sfx = SoundEngine->play2D("fall.ogg", false, false, true);
 			sfx->setVolume(0.8);
 		}
 		else {
-			sfx = SoundEngine->play2D("../resources/crash.ogg", false, false, true);
+			sfx = SoundEngine->play2D("crash.ogg", false, false, true);
 			sfx->setVolume(0.3);
 		}
 		engine->setNextScreen(new EndScreen(_prog, (int) _time, _player.getScore(), (int) (_player.getSpeed()*1000), this, _tunnel, posPlayer, _player.getAngle()));

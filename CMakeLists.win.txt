@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
  
 project(tunnelGL)
  
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DGLEW_STATIC -g -DGL_GLEXT_PROTOTYPES")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DGLEW_STATIC -g -DGL_GLEXT_PROTOTYPES -mwindows")
 
 get_filename_component(lib_path "libraries/lib" ABSOLUTE)
 LINK_DIRECTORIES(${lib_path})
@@ -34,4 +34,6 @@ copy_files("resources/*.tga" ${CMAKE_BINARY_DIR})
 copy_files("resources/*.obj" ${CMAKE_BINARY_DIR})
 copy_files("resources/*.glsl" ${CMAKE_BINARY_DIR})
 copy_files("resources/*.txt" ${CMAKE_BINARY_DIR})
+copy_files("resources/*.ogg" ${CMAKE_BINARY_DIR})
+copy_files("resources/*.dds" ${CMAKE_BINARY_DIR})
 ###  Copying resources (shaders, images,...)  ###}}}

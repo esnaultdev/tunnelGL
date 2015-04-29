@@ -25,7 +25,7 @@ MenuScreen::~MenuScreen(){
 }
 
 void MenuScreen::init(){
-	initText2D("../resources/font.DDS", 16);
+	initText2D("font.DDS", 16);
 	
 	_skytube = SkyTube(_prog, glm::vec3(0, 0, 0));
 	_camera = Camera(_prog, glm::vec3(0, 0, 0), 0);	

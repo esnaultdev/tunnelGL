@@ -1,6 +1,7 @@
 #include "Tunnel.hpp"
 #include <irrKlang.h>
 #include <cstdlib>
+#include <ctime>
 #include <sstream>
 #include "PrintText.hpp"
 
@@ -59,7 +60,7 @@ void Tunnel::nextTunnel() {
 			_newLevelTime = 0;	
 			_level = level;
 			if (!_muted) {
-				irrklang::ISound *sfx = SoundEngine->play2D("../resources/levelup.ogg", false, false, true);
+				irrklang::ISound *sfx = SoundEngine->play2D("levelup.ogg", false, false, true);
 				sfx->setVolume(0.4);
 			}
 		}
