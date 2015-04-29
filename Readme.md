@@ -11,11 +11,11 @@ Presentation
 This game is a 3D Tunnel based runner.
 
 Made by 5 students from second year at ENSICAEN, specialized in Image and Multimedia :
+- Ao
+- Goutye
 - Rafaël Garcia
 - Émilie Louvat
 - Pierre Vandromme
-- Ao
-- Gautier Boëda
 
 For more details about the project, check out the final presentation we made for the project
 in the folder doc/presentations (English and French available)
@@ -30,8 +30,9 @@ Requirements
 - GLFW3
 - GLEW
 
-Compilation
+Compilation (Unix)
 -----------
+
 Compiler le projet :
 
 	mkdir build
@@ -39,9 +40,27 @@ Compiler le projet :
 	cmake ..
 	make
 
-Run
----
+Compilation (Windows)
+-----------
+
+Compiler le projet :
+
+	Rename the CMakeList.win.txt to CMakeList.txt
+	md build
+	cd build
+	cmake .. -G "MinGW Makefiles"
+	mingw32-make
+
+Run (Unix)
+-----------
 
 While in the build folder:
 
 	./tunnelGL
+
+Run (Windows)
+-----------
+
+While in the build folder:
+	
+	tunnelGL.exe
