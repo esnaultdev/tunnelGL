@@ -30,7 +30,7 @@ EndScreen::~EndScreen(){
 }
 
 void EndScreen::init(){
-	initText2D("../resources/font.DDS", 16);
+	initText2D("font.DDS", 16);
 	_skytube = SkyTube(_prog, _pos);
 	_camera = Camera(_prog, _pos, _angle);
 	_tunnel->setMuted(true);
