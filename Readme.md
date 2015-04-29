@@ -33,7 +33,7 @@ Requirements
 Compilation (Unix)
 -----------
 
-Compiler le projet :
+To compile the project :
 
 	mkdir build
 	cd build
@@ -43,7 +43,7 @@ Compiler le projet :
 Compilation (Windows)
 -----------
 
-Compiler le projet :
+To compile the project :
 
 	Rename the CMakeList.win.txt to CMakeList.txt
 	md build
